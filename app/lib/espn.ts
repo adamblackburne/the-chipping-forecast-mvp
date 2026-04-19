@@ -78,24 +78,41 @@ function parsePlayerStatus(statusName: string | undefined): EspnLeaderboardEntry
 
 /** Fetch the current/upcoming PGA Tour event. */
 export async function fetchCurrentTournament(): Promise<EspnTournament | null> {
+  const { inPlay, next } = await fetchTournamentPair();
+  return next ?? inPlay;
+}
+
+/**
+ * Fetch both the in-progress tournament (if any) and the next upcoming tournament open for picks.
+ * - inPlay: the tournament currently underway (status "in"), or null
+ * - next: the nearest "pre" tournament available for picks, or null (falls back to most recent "post" only when nothing else exists)
+ */
+export async function fetchTournamentPair(): Promise<{
+  inPlay: EspnTournament | null;
+  next: EspnTournament | null;
+}> {
   const res = await fetch(`${ESPN_BASE}/leaderboard`, { next: { revalidate: 600 } });
-  if (!res.ok) return null;
+  if (!res.ok) return { inPlay: null, next: null };
   const data = await res.json() as { events?: RawEvent[] };
   const events: RawEvent[] = data.events ?? [];
 
-  // Prefer "in progress", then nearest "pre", then most recent "post"
-  const live = events.find((e) => parseStatus(e.status?.type?.state) === "in");
-  if (live) return adaptTournament(live);
+  const inPlay = events.find((e) => parseStatus(e.status?.type?.state) === "in") ?? null;
 
   const upcoming = events
     .filter((e) => parseStatus(e.status?.type?.state) === "pre")
-    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0];
-  if (upcoming) return adaptTournament(upcoming);
+    .sort((a, b) => new Date(a.date).getTime() - new Date(b.date).getTime())[0] ?? null;
 
-  const recent = events
-    .filter((e) => parseStatus(e.status?.type?.state) === "post")
-    .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0];
-  return recent ? adaptTournament(recent) : null;
+  // Off-season fallback: show most recent finished tournament
+  const fallback = !upcoming
+    ? (events
+        .filter((e) => parseStatus(e.status?.type?.state) === "post")
+        .sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime())[0] ?? null)
+    : null;
+
+  return {
+    inPlay: inPlay ? adaptTournament(inPlay) : null,
+    next: upcoming ? adaptTournament(upcoming) : (fallback ? adaptTournament(fallback) : null),
+  };
 }
 
 function adaptTournament(e: RawEvent): EspnTournament {

@@ -2,15 +2,15 @@ import Link from "next/link";
 import { MobileShell } from "@/components/layout/MobileShell";
 import { Button } from "@/components/ui/Button";
 import { Divider } from "@/components/ui/Divider";
-import { fetchCurrentTournament } from "@/lib/espn";
+import { fetchTournamentPair } from "@/lib/espn";
 
 export const revalidate = 600;
 
 export default async function LandingPage() {
-  const tournament = await fetchCurrentTournament().catch(() => null);
+  const { inPlay, next } = await fetchTournamentPair().catch(() => ({ inPlay: null, next: null }));
 
-  const deadlineDisplay = tournament?.firstTeeTime
-    ? formatDeadline(tournament.firstTeeTime)
+  const nextDeadlineDisplay = next?.firstTeeTime && next.status === "pre"
+    ? formatDeadline(next.firstTeeTime)
     : null;
 
   return (
@@ -26,41 +26,71 @@ export default async function LandingPage() {
           </p>
         </div>
 
-        {/* This week's tournament */}
-        {tournament && (
-          <div>
-            <div className="flex items-center gap-2 mb-2">
-              <span className="w-3 h-0.5 bg-ink inline-block" aria-hidden />
-              <span className="font-mono text-[10px] uppercase tracking-widest text-ink-2">
-                This week
-              </span>
-            </div>
-            <div className="border border-accent bg-accent-soft rounded-xl p-4">
-              <div className="flex items-start justify-between gap-2 mb-1">
-                <p className="font-display font-bold text-xl text-ink leading-tight">
-                  {tournament.name}
-                </p>
-                <span
-                  className={[
-                    "text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border shrink-0",
-                    tournament.status === "in"
-                      ? "bg-ink text-paper border-ink"
-                      : "bg-paper text-ink-2 border-ink/20",
-                  ].join(" ")}
-                >
-                  {tournament.status === "in" ? "Live" : tournament.status === "pre" ? "Upcoming" : "Finished"}
-                </span>
+        {/* Tournament info */}
+        {(inPlay || next) && (
+          <div className="flex flex-col gap-3">
+            {/* In-play tournament */}
+            {inPlay && (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-3 h-0.5 bg-ink inline-block" aria-hidden />
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-ink-2">
+                    This week
+                  </span>
+                </div>
+                <div className="border border-accent bg-accent-soft rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <p className="font-display font-bold text-xl text-ink leading-tight">
+                      {inPlay.name}
+                    </p>
+                    <span className="text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border shrink-0 bg-ink text-paper border-ink">
+                      Live
+                    </span>
+                  </div>
+                  {inPlay.venue && (
+                    <p className="font-sans text-xs text-ink-2">{inPlay.venue}</p>
+                  )}
+                </div>
               </div>
-              {tournament.venue && (
-                <p className="font-sans text-xs text-ink-2">{tournament.venue}</p>
-              )}
-              {deadlineDisplay && (
-                <p className="font-sans text-xs text-ink-2 mt-1">
-                  Pick deadline:{" "}
-                  <span className="text-ink font-medium">{deadlineDisplay}</span>
-                </p>
-              )}
-            </div>
+            )}
+
+            {/* Next tournament — shown as "This week" when nothing is live, or "Open for picks" below the live one */}
+            {next && (
+              <div>
+                <div className="flex items-center gap-2 mb-2">
+                  <span className="w-3 h-0.5 bg-ink inline-block" aria-hidden />
+                  <span className="font-mono text-[10px] uppercase tracking-widest text-ink-2">
+                    {inPlay ? "Open for picks" : "This week"}
+                  </span>
+                </div>
+                <div className="border border-accent bg-accent-soft rounded-xl p-4">
+                  <div className="flex items-start justify-between gap-2 mb-1">
+                    <p className="font-display font-bold text-xl text-ink leading-tight">
+                      {next.name}
+                    </p>
+                    <span
+                      className={[
+                        "text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full border shrink-0",
+                        next.status === "in"
+                          ? "bg-ink text-paper border-ink"
+                          : "bg-paper text-ink-2 border-ink/20",
+                      ].join(" ")}
+                    >
+                      {next.status === "in" ? "Live" : next.status === "pre" ? "Upcoming" : "Finished"}
+                    </span>
+                  </div>
+                  {next.venue && (
+                    <p className="font-sans text-xs text-ink-2">{next.venue}</p>
+                  )}
+                  {nextDeadlineDisplay && (
+                    <p className="font-sans text-xs text-ink-2 mt-1">
+                      Pick deadline:{" "}
+                      <span className="text-ink font-medium">{nextDeadlineDisplay}</span>
+                    </p>
+                  )}
+                </div>
+              </div>
+            )}
           </div>
         )}
 

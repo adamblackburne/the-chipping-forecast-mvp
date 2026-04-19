@@ -21,7 +21,15 @@ export default function CreateGroupPage() {
   useEffect(() => {
     fetch("/api/tournaments")
       .then((r) => r.json())
-      .then((data) => setTournament(data.tournament))
+      .then((data) => {
+        // Always use the next upcoming tournament for picks, never an in-play one
+        const t = data.next ?? data.tournament;
+        if (t?.status === "in") {
+          setError("This tournament has already started. Please wait for the next one.");
+        } else {
+          setTournament(t);
+        }
+      })
       .catch(() => setError("Could not load tournament data"))
       .finally(() => setLoading(false));
   }, []);
