@@ -87,6 +87,19 @@ export async function fetchCurrentTournament(): Promise<EspnTournament | null> {
  * - inPlay: the tournament currently underway (status "in"), or null
  * - next: the nearest "pre" tournament available for picks, or null (falls back to most recent "post" only when nothing else exists)
  */
+function mockPreTournament(): RawEvent {
+  const start = new Date(Date.now() + 5 * 24 * 60 * 60 * 1000).toISOString();
+  return {
+    id: "mock-tournament",
+    name: "Mock Golf Tournament",
+    shortName: "Mock Golf",
+    date: start,
+    endDate: new Date(Date.now() + 8 * 24 * 60 * 60 * 1000).toISOString(),
+    status: { type: { state: "pre", name: "STATUS_SCHEDULED" } },
+    competitions: [{ startDate: start, venue: { fullName: "Mock Golf Club" }, competitors: [] }],
+  };
+}
+
 export async function fetchTournamentPair(): Promise<{
   inPlay: EspnTournament | null;
   next: EspnTournament | null;
@@ -95,6 +108,10 @@ export async function fetchTournamentPair(): Promise<{
   if (!res.ok) return { inPlay: null, next: null };
   const data = await res.json() as { events?: RawEvent[] };
   const events: RawEvent[] = data.events ?? [];
+
+  if (process.env.MOCK_NEXT_TOURNAMENT === "1") {
+    events.push(mockPreTournament());
+  }
 
   const inPlay = events.find((e) => parseStatus(e.status?.type?.state) === "in") ?? null;
 
