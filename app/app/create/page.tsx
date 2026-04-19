@@ -40,7 +40,7 @@ export default function CreateGroupPage() {
           tournamentEspnId: tournament.id,
           tournamentName: tournament.name,
           tournamentStartDate: tournament.startDate,
-          firstTeeTime: tournament.firstTeeTime,
+          firstTeeTime: tournament.firstTeeTime ?? tournament.startDate,
         }),
       });
       const data = await res.json();
