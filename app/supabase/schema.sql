@@ -46,6 +46,18 @@ create table if not exists picks (
 
 create index if not exists picks_participant_idx on picks (participant_id);
 
+-- ── Player rankings ──────────────────────────────────────
+create table if not exists player_rankings (
+  player_id   text primary key,  -- opaque ID from the rankings source (e.g. OWGR)
+  ranking     int not null,
+  name        text not null,
+  first_name  text,
+  last_name   text,
+  updated_at  timestamptz not null default now()
+);
+
+create index if not exists player_rankings_ranking_idx on player_rankings (ranking);
+
 -- ── Tournament cache ──────────────────────────────────────
 create table if not exists tournament_cache (
   espn_tournament_id  text primary key,
@@ -59,7 +71,8 @@ create table if not exists tournament_cache (
 alter table competitions   enable row level security;
 alter table participants   enable row level security;
 alter table picks          enable row level security;
-alter table tournament_cache enable row level security;
+alter table tournament_cache   enable row level security;
+alter table player_rankings    enable row level security;
 
 -- Anyone can read competition details (to look up by join code)
 create policy "competitions_read" on competitions
@@ -77,4 +90,8 @@ create policy "picks_read" on picks
 
 -- Tournament cache is public read
 create policy "tournament_cache_read" on tournament_cache
+  for select using (true);
+
+-- Player rankings are public read; writes go through service role only
+create policy "player_rankings_read" on player_rankings
   for select using (true);

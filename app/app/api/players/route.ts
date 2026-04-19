@@ -1,5 +1,5 @@
 import { NextRequest, NextResponse } from "next/server";
-import { fetchWorldRankings } from "@/lib/datagolf";
+import { fetchWorldRankings } from "@/lib/rankings";
 import { fetchTournamentField } from "@/lib/espn";
 import { supabase } from "@/lib/supabase";
 import type { RankedPlayer } from "@/lib/datagolf";
