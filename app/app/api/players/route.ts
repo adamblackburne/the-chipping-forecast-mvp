@@ -53,11 +53,13 @@ export async function GET(req: NextRequest) {
       });
   } else {
     // DataGolf unavailable — use ESPN field with placeholder rankings
-    merged = fieldPlayers.map((p) => ({
+    // For mock tournaments assign sequential rankings so all brackets are populated
+    const isMock = comp.tournament_espn_id === "mock-tournament";
+    merged = fieldPlayers.map((p, i) => ({
       id: p.id,
       espnId: p.id,
       name: p.displayName,
-      worldRanking: p.worldRanking,
+      worldRanking: isMock ? i + 1 : p.worldRanking,
       odds: p.odds,
       recentForm: p.recentForm,
     }));

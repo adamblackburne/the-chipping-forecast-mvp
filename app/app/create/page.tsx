@@ -11,7 +11,7 @@ import type { EspnTournament } from "@/lib/espn";
 
 export default function CreateGroupPage() {
   const router = useRouter();
-  const [groupName, setGroupName] = useState("Sunday Sandbaggers");
+  const [groupName, setGroupName] = useState("");
   const [maxPlayers, setMaxPlayers] = useState("");
   const [tournament, setTournament] = useState<EspnTournament | null>(null);
   const [loading, setLoading] = useState(true);
