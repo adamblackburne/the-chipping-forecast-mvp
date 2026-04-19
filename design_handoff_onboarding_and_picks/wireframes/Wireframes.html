@@ -1,0 +1,1870 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>The Chipping Forecast · Wireframes</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+
+  <link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;500;700&family=Architects+Daughter&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+
+  <style>
+/* ─────────────────────────────────────────────────────────
+   The Chipping Forecast — Wireframes
+   Tidy lo-fi. Black ink on off-white. One accent = muted green.
+   ───────────────────────────────────────────────────────── */
+
+:root {
+  --paper: #FAF8F3;
+  --paper-2: #F1EEE4;
+  --ink: #1A1A1A;
+  --ink-2: #4A4A4A;
+  --ink-3: #8A8A8A;
+  --line: #1A1A1A;
+  --line-soft: #C9C5BA;
+  --accent: #4A6B4A;       /* muted fairway green */
+  --accent-soft: #DDE5D8;
+  --warn: #A86B3C;         /* muted terracotta, for highlights only */
+  --warn-soft: #EADDCB;
+  --radius: 6px;
+}
+
+* { box-sizing: border-box; }
+
+html, body {
+  margin: 0;
+  padding: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: 'Caveat', 'Kalam', cursive;
+  /* body uses handwriting as accent; UI uses Architects Daughter */
+}
+
+body {
+  font-family: 'Architects Daughter', 'Caveat', sans-serif;
+  font-size: 15px;
+  line-height: 1.4;
+  /* paper grain */
+  background-image:
+    radial-gradient(circle at 20% 10%, rgba(0,0,0,0.015) 1px, transparent 1px),
+    radial-gradient(circle at 70% 40%, rgba(0,0,0,0.012) 1px, transparent 1px),
+    radial-gradient(circle at 40% 80%, rgba(0,0,0,0.01) 1px, transparent 1px);
+  background-size: 23px 23px, 31px 31px, 17px 17px;
+}
+
+/* ── Typography ───────────────────────────────────────── */
+.hand { font-family: 'Caveat', cursive; }
+.mono { font-family: 'JetBrains Mono', ui-monospace, monospace; }
+
+h1, h2, h3 {
+  font-family: 'Caveat', cursive;
+  font-weight: 700;
+  letter-spacing: 0.5px;
+  margin: 0;
+}
+h1 { font-size: 56px; line-height: 1; }
+h2 { font-size: 32px; line-height: 1; }
+h3 { font-size: 22px; line-height: 1.1; }
+
+/* ── Layout shell ─────────────────────────────────────── */
+.page {
+  max-width: 1680px;
+  margin: 0 auto;
+  padding: 48px 40px 120px;
+}
+
+.masthead {
+  display: flex;
+  align-items: flex-end;
+  justify-content: space-between;
+  gap: 32px;
+  padding-bottom: 24px;
+  border-bottom: 2px solid var(--ink);
+  margin-bottom: 32px;
+}
+.masthead .title { display: flex; align-items: baseline; gap: 18px; }
+.masthead h1 { font-size: 68px; }
+.masthead .sub {
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 13px;
+  color: var(--ink-2);
+  max-width: 520px;
+  text-align: right;
+}
+.masthead .stamp {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  border: 1.5px solid var(--ink);
+  padding: 4px 8px;
+  transform: rotate(-2deg);
+  background: var(--paper-2);
+}
+
+/* ── Section ──────────────────────────────────────────── */
+.section { margin-top: 64px; }
+.section-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  margin-bottom: 24px;
+}
+.section-head .num {
+  font-family: 'Caveat', cursive;
+  font-size: 40px;
+  color: var(--ink-3);
+  line-height: 1;
+}
+.section-head h2 { font-size: 36px; }
+.section-head .note {
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-left: auto;
+}
+
+/* ── Storyboard row ───────────────────────────────────── */
+.storyboard {
+  display: flex;
+  gap: 28px;
+  align-items: flex-start;
+  overflow-x: auto;
+  padding-bottom: 16px;
+}
+.story-step { flex: 0 0 auto; display: flex; flex-direction: column; align-items: center; gap: 8px; }
+.story-step .caption {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  text-align: center;
+  max-width: 260px;
+  line-height: 1.1;
+}
+.story-step .step-num {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  letter-spacing: 2px;
+  color: var(--ink-3);
+}
+.story-step .role-tag {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  padding: 2px 7px;
+  border: 1px solid var(--ink);
+}
+.role-host { background: var(--warn-soft); }
+.role-joiner { background: var(--accent-soft); }
+
+.arrow {
+  align-self: center;
+  flex-shrink: 0;
+  margin-top: 180px;
+  color: var(--ink-2);
+}
+
+/* ── Variations row ───────────────────────────────────── */
+.variations {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 32px;
+  margin-top: 8px;
+}
+.variation {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.variation .var-label {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+.variation .var-label .name {
+  font-family: 'Caveat', cursive;
+  font-size: 26px;
+  line-height: 1;
+}
+.variation .var-label .desc {
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 12px;
+  color: var(--ink-2);
+  text-align: center;
+  max-width: 280px;
+}
+
+/* ── Phone frame ──────────────────────────────────────── */
+.phone {
+  width: 300px;
+  height: 620px;
+  border: 2.5px solid var(--ink);
+  border-radius: 38px;
+  background: var(--paper);
+  padding: 10px;
+  position: relative;
+  box-shadow: 3px 4px 0 rgba(0,0,0,0.08);
+}
+.phone::before {
+  content: '';
+  position: absolute;
+  top: 16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 90px;
+  height: 22px;
+  background: var(--ink);
+  border-radius: 12px;
+  z-index: 2;
+}
+.phone-screen {
+  width: 100%;
+  height: 100%;
+  border: 1.5px solid var(--ink);
+  border-radius: 28px;
+  overflow: hidden;
+  background: var(--paper);
+  position: relative;
+  display: flex;
+  flex-direction: column;
+}
+.phone-lg {
+  width: 340px;
+  height: 700px;
+}
+.phone-lg .phone-screen { border-radius: 30px; }
+
+/* status bar inside screen */
+.statusbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 22px 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-2);
+  flex-shrink: 0;
+}
+.statusbar .dots { display: flex; gap: 3px; }
+.statusbar .dots span { width: 3px; height: 3px; background: var(--ink-2); border-radius: 50%; display: inline-block; }
+
+/* top bar (title + action) */
+.topbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 8px 18px 10px;
+  border-bottom: 1px dashed var(--line-soft);
+  flex-shrink: 0;
+}
+.topbar .back {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+}
+.topbar .screen-title {
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  font-weight: 700;
+}
+.topbar .action {
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 12px;
+  color: var(--accent);
+}
+
+/* generic content area */
+.screen-body {
+  flex: 1;
+  padding: 14px 18px;
+  overflow-y: auto;
+  min-height: 0;
+}
+.screen-body.pad-lg { padding: 22px; }
+.screen-body.center {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 16px;
+}
+
+/* bottom tab bar */
+.tabbar {
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+  border-top: 1.5px solid var(--ink);
+  padding: 8px 0 16px;
+  flex-shrink: 0;
+  background: var(--paper-2);
+}
+.tabbar .tab {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+.tabbar .tab.active { color: var(--ink); }
+.tabbar .tab .icon {
+  width: 18px; height: 18px;
+  border: 1.5px solid currentColor;
+  border-radius: 3px;
+}
+
+/* ── Primitives ───────────────────────────────────────── */
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  padding: 10px 16px;
+  border: 2px solid var(--ink);
+  border-radius: 10px;
+  background: var(--paper);
+  line-height: 1;
+}
+.btn.primary { background: var(--ink); color: var(--paper); }
+.btn.accent { background: var(--accent); color: var(--paper); border-color: var(--accent); }
+.btn.full { width: 100%; }
+.btn.sm { font-size: 16px; padding: 6px 10px; }
+
+.input {
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 10px 12px;
+  background: var(--paper);
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  line-height: 1;
+  width: 100%;
+}
+.input.mono { font-family: 'JetBrains Mono', monospace; font-size: 18px; letter-spacing: 2px; text-align: center; }
+.input .label {
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 11px;
+  color: var(--ink-2);
+}
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+.field > label {
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 11px;
+  color: var(--ink-2);
+  text-transform: uppercase;
+  letter-spacing: 1.2px;
+}
+
+.chip {
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 11px;
+  padding: 3px 8px;
+  border: 1px solid var(--ink);
+  border-radius: 100px;
+  background: var(--paper);
+  line-height: 1;
+}
+.chip.accent { background: var(--accent-soft); border-color: var(--accent); }
+.chip.warn { background: var(--warn-soft); border-color: var(--warn); }
+.chip.solid { background: var(--ink); color: var(--paper); }
+
+.divider-hand {
+  height: 8px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 8' preserveAspectRatio='none'><path d='M0 4 Q 25 1 50 4 T 100 4' stroke='%231A1A1A' stroke-width='1' fill='none'/></svg>");
+  background-repeat: repeat-x;
+  background-size: 100px 8px;
+}
+
+.tier-label {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--ink-2);
+  padding: 2px 0;
+}
+.tier-label::before {
+  content: '';
+  width: 14px; height: 2px; background: var(--ink);
+}
+
+/* golfer row */
+.golfer-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 4px;
+  border-bottom: 1px dashed var(--line-soft);
+}
+.golfer-row:last-child { border-bottom: 0; }
+.golfer-row .avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--paper-2);
+  border: 1.5px solid var(--ink);
+  flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Caveat', cursive;
+  font-size: 12px;
+}
+.golfer-row .rank {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 11px;
+  color: var(--ink-2);
+  min-width: 20px;
+}
+.golfer-row .name {
+  flex: 1;
+  font-family: 'Architects Daughter', sans-serif;
+  font-size: 13px;
+}
+.golfer-row .meta {
+  font-family: 'JetBrains Mono', monospace;
+  font-size: 10px;
+  color: var(--ink-3);
+}
+.golfer-row.picked {
+  background: var(--accent-soft);
+  border-radius: 4px;
+  padding: 8px 6px;
+}
+.golfer-row .pick-dot {
+  width: 16px; height: 16px; border: 1.5px solid var(--ink);
+  border-radius: 50%; flex-shrink: 0;
+}
+.golfer-row.picked .pick-dot { background: var(--accent); border-color: var(--accent); }
+
+/* annotation callout */
+.annotation {
+  font-family: 'Caveat', cursive;
+  font-size: 20px;
+  color: var(--ink-2);
+  line-height: 1.1;
+  max-width: 200px;
+  position: relative;
+}
+.annotation.arrow-left::before {
+  content: '';
+  position: absolute;
+  left: -28px; top: 10px;
+  width: 24px; height: 14px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 14'><path d='M1 7 Q 8 2 20 7 M 15 4 L 20 7 L 16 11' stroke='%234A4A4A' stroke-width='1.2' fill='none' stroke-linecap='round'/></svg>");
+  background-repeat: no-repeat;
+}
+
+/* tabs (flow presentation) */
+.section-tabs {
+  display: flex;
+  gap: 6px;
+  margin-bottom: 20px;
+  border-bottom: 1.5px solid var(--ink);
+}
+.section-tabs button {
+  background: transparent;
+  border: 1.5px solid var(--ink);
+  border-bottom: 0;
+  font-family: 'Caveat', cursive;
+  font-size: 22px;
+  padding: 6px 14px;
+  cursor: pointer;
+  color: var(--ink-2);
+  border-radius: 8px 8px 0 0;
+  margin-bottom: -1.5px;
+}
+.section-tabs button.active {
+  color: var(--ink);
+  background: var(--paper);
+  border-bottom: 1.5px solid var(--paper);
+}
+
+/* progress dots for tier wizard */
+.wizard-dots {
+  display: flex;
+  gap: 6px;
+  justify-content: center;
+  padding: 6px 0;
+}
+.wizard-dots .dot {
+  width: 10px; height: 10px; border-radius: 50%;
+  border: 1.5px solid var(--ink);
+  background: var(--paper);
+}
+.wizard-dots .dot.done { background: var(--ink); }
+.wizard-dots .dot.active { background: var(--accent); border-color: var(--accent); }
+
+/* scribble underline */
+.scribble {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 6' preserveAspectRatio='none'><path d='M1 3 Q 20 0 40 3 T 79 3' stroke='%234A6B4A' stroke-width='2' fill='none'/></svg>");
+  background-repeat: no-repeat;
+  background-position: 0 100%;
+  background-size: 100% 5px;
+  padding-bottom: 4px;
+}
+
+/* grid tiles */
+.tile {
+  border: 1.5px solid var(--ink);
+  border-radius: 8px;
+  padding: 10px;
+  background: var(--paper);
+}
+.tile-head {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  margin-bottom: 6px;
+}
+
+/* Shared helpers */
+.row { display: flex; gap: 8px; align-items: center; }
+.col { display: flex; flex-direction: column; gap: 8px; }
+.stack-4 > * + * { margin-top: 4px; }
+.stack-8 > * + * { margin-top: 8px; }
+.stack-12 > * + * { margin-top: 12px; }
+.stack-16 > * + * { margin-top: 16px; }
+.muted { color: var(--ink-2); }
+.tiny { font-family: 'Architects Daughter', sans-serif; font-size: 11px; color: var(--ink-2); }
+.center-txt { text-align: center; }
+
+/* keyboard hint */
+.kb-hint {
+  position: absolute;
+  bottom: 6px; left: 50%;
+  transform: translateX(-50%);
+  width: 44px; height: 4px;
+  background: var(--ink);
+  border-radius: 2px;
+  opacity: 0.3;
+}
+
+</style>
+
+  <script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+  <script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+
+  <script type="text/babel" data-presets="react">
+/* eslint-disable */
+// Shared wireframe primitives for The Chipping Forecast
+
+// ── Phone shell ──────────────────────────────────────────
+function Phone({ children, size, roleTag, caption, stepNum, annotation }) {
+  return (
+    <div className="story-step">
+      {stepNum && <div className="step-num">{stepNum}</div>}
+      {roleTag && (
+        <div className={`role-tag role-${roleTag.toLowerCase()}`}>{roleTag}</div>
+      )}
+      <div className={"phone " + (size === 'lg' ? 'phone-lg' : '')}>
+        <div className="phone-screen">{children}</div>
+      </div>
+      {caption && <div className="caption">{caption}</div>}
+      {annotation && <div className="annotation arrow-left" style={{ marginTop: 8 }}>{annotation}</div>}
+    </div>
+  );
+}
+
+function StatusBar() {
+  return (
+    <div className="statusbar">
+      <span>9:41</span>
+      <span className="dots"><span/><span/><span/></span>
+    </div>
+  );
+}
+
+function TopBar({ title, back, action, onBack }) {
+  return (
+    <div className="topbar">
+      <span className="back">{back ? '‹' : ''}</span>
+      <span className="screen-title">{title}</span>
+      <span className="action">{action || ''}</span>
+    </div>
+  );
+}
+
+function TabBar({ active = 'picks' }) {
+  const tabs = [
+    { id: 'picks', label: 'My Picks' },
+    { id: 'board', label: 'Board' },
+    { id: 'group', label: 'Group' },
+  ];
+  return (
+    <div className="tabbar">
+      {tabs.map(t => (
+        <div key={t.id} className={"tab " + (t.id === active ? 'active' : '')}>
+          <div className="icon" />
+          <span>{t.label}</span>
+        </div>
+      ))}
+    </div>
+  );
+}
+
+// ── Arrow between storyboard frames ──────────────────────
+function Arrow() {
+  return (
+    <svg className="arrow" width="52" height="20" viewBox="0 0 52 20">
+      <path d="M2 10 Q 18 4 44 10 M 38 5 L 46 10 L 38 15"
+        stroke="#4A4A4A" strokeWidth="1.5" fill="none" strokeLinecap="round" strokeLinejoin="round"/>
+    </svg>
+  );
+}
+
+// ── A tier block (used in picks variations) ──────────────
+function TierHeader({ label }) {
+  return <div className="tier-label">{label}</div>;
+}
+
+function GolferRow({ rank, name, meta, picked, avatarTxt, showDot = true }) {
+  return (
+    <div className={"golfer-row " + (picked ? 'picked' : '')}>
+      {showDot && <div className="pick-dot" />}
+      <div className="avatar">{avatarTxt || name[0]}</div>
+      <span className="rank">#{rank}</span>
+      <span className="name">{name}</span>
+      {meta && <span className="meta">{meta}</span>}
+    </div>
+  );
+}
+
+// Mock golfer data (rank, name, form/odds)
+const GOLFERS = {
+  t10: [
+    { rank: 1,  name: 'S. Scheffler',  meta: '+800'  },
+    { rank: 2,  name: 'R. McIlroy',    meta: '+1100' },
+    { rank: 3,  name: 'X. Schauffele', meta: '+1400' },
+    { rank: 4,  name: 'L. Aberg',      meta: '+1800' },
+    { rank: 5,  name: 'C. Morikawa',   meta: '+2000' },
+    { rank: 6,  name: 'W. Zalatoris',  meta: '+2200' },
+    { rank: 7,  name: 'J. Thomas',     meta: '+2500' },
+    { rank: 8,  name: 'V. Hovland',    meta: '+2800' },
+    { rank: 9,  name: 'P. Cantlay',    meta: '+3000' },
+    { rank: 10, name: 'B. DeChambeau', meta: '+3200' },
+  ],
+  t20: [
+    { rank: 11, name: 'J. Rose',    meta: '+3500' },
+    { rank: 12, name: 'S. Lowry',   meta: '+4000' },
+    { rank: 13, name: 'T. Hatton',  meta: '+4500' },
+    { rank: 14, name: 'C. Young',   meta: '+5000' },
+    { rank: 15, name: 'M. Pavon',   meta: '+5500' },
+    { rank: 16, name: 'H. Matsuyama', meta: '+5800' },
+    { rank: 17, name: 'T. Fleetwood', meta: '+6000' },
+    { rank: 18, name: 'R. Fowler',  meta: '+6200' },
+    { rank: 19, name: 'J. Day',     meta: '+6400' },
+    { rank: 20, name: 'B. Harman',  meta: '+6500' },
+  ],
+  t30: [
+    { rank: 21, name: 'A. Bhatia',   meta: '+6500' },
+    { rank: 22, name: 'S. Straka',   meta: '+7000' },
+    { rank: 23, name: 'T. Kim',      meta: '+7500' },
+    { rank: 24, name: 'K. Mitchell', meta: '+8000' },
+    { rank: 25, name: 'D. Thompson', meta: '+8500' },
+    { rank: 26, name: 'S. Burns',    meta: '+8800' },
+    { rank: 27, name: 'T. Finau',    meta: '+9000' },
+    { rank: 28, name: 'M. Fitzpatrick', meta: '+9200' },
+    { rank: 29, name: 'S. Theegala', meta: '+9500' },
+    { rank: 30, name: 'E. Grillo',   meta: '+9800' },
+  ],
+  tPlus: [
+    { rank: 31, name: 'M. Kuchar',    meta: '+10000' },
+    { rank: 34, name: 'A. Rai',       meta: '+11000' },
+    { rank: 37, name: 'S. Power',     meta: '+11500' },
+    { rank: 42, name: 'C. Knapp',     meta: '+12500' },
+    { rank: 48, name: 'B. An',        meta: '+13500' },
+    { rank: 52, name: 'A. Noren',     meta: '+14000' },
+    { rank: 58, name: 'R. Hojgaard',  meta: '+15000' },
+    { rank: 64, name: 'L. List',      meta: '+17500' },
+    { rank: 71, name: 'J. Stevens',   meta: '+20000' },
+    { rank: 94, name: 'K. Na',        meta: '+25000' },
+    { rank: 108, name: 'Z. Johnson',  meta: '+28000' },
+    { rank: 122, name: 'B. Watson',   meta: '+32000' },
+    { rank: 143, name: 'P. Mickelson', meta: '+40000' },
+    { rank: 168, name: 'J. Spieth',   meta: '+45000' },
+    { rank: 195, name: 'R. Cabrera-Bello', meta: '+50000' },
+  ],
+};
+
+// ── Section shell ────────────────────────────────────────
+function Section({ num, title, note, children }) {
+  return (
+    <section className="section">
+      <div className="section-head">
+        <span className="num">{num}</span>
+        <h2>{title}</h2>
+        {note && <span className="note">{note}</span>}
+      </div>
+      {children}
+    </section>
+  );
+}
+
+function Variation({ name, desc, children }) {
+  return (
+    <div className="variation">
+      <div className="var-label">
+        <div className="name">{name}</div>
+        {desc && <div className="desc">{desc}</div>}
+      </div>
+      {children}
+    </div>
+  );
+}
+
+Object.assign(window, {
+  Phone, StatusBar, TopBar, TabBar, Arrow,
+  TierHeader, GolferRow, GOLFERS,
+  Section, Variation,
+});
+
+
+/* eslint-disable */
+// Happy-path storyboard: 6 frames, mix of host and joiner
+
+// Screen 1: Landing / welcome (both paths start here)
+function ScreenLanding() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body center pad-lg">
+        <div style={{ fontFamily: 'Caveat, cursive', fontSize: 46, lineHeight: 0.95, fontWeight: 700 }}>
+          The<br/>Chipping<br/>Forecast
+        </div>
+        <div className="tiny" style={{ maxWidth: 200 }}>
+          Pick 4 golfers. Lowest combined finish wins.
+        </div>
+        <div className="divider-hand" style={{ width: '60%' }} />
+        <div className="col" style={{ width: '100%', gap: 10 }}>
+          <div className="btn primary full">+ Start a group</div>
+          <div className="btn full">Join with code</div>
+        </div>
+        <div className="tiny" style={{ marginTop: 'auto' }}>
+          no sign-up. just a name.
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Screen 2a: Host creates group
+function ScreenCreateGroup() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="New group" />
+      <div className="screen-body stack-12">
+        <div className="field">
+          <label>Group name</label>
+          <input className="input" defaultValue="Sunday Sandbaggers" />
+        </div>
+        <div className="field">
+          <label>Tournament</label>
+          <div className="input" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <span style={{ fontSize: 16 }}>The Masters '26</span>
+            <span className="tiny">›</span>
+          </div>
+        </div>
+        <div className="field">
+          <label>Pick deadline</label>
+          <div className="tile" style={{ padding: 8 }}>
+            <div className="tiny">Thu Apr 9 · 7:00 AM ET</div>
+            <div className="tiny muted">(1hr before tee-off — auto)</div>
+          </div>
+        </div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Create group →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Screen 2b: Joiner enters code
+function ScreenJoinCode() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Join group" />
+      <div className="screen-body stack-16" style={{ paddingTop: 32 }}>
+        <div className="tiny center-txt">Got a code from a friend?</div>
+        <input className="input mono" defaultValue="GRN-4FT" />
+        <div className="tiny center-txt muted">6 characters, not case-sensitive</div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Find group →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// Screen 3: Display name (both)
+function ScreenDisplayName() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Your name" />
+      <div className="screen-body stack-12" style={{ paddingTop: 24 }}>
+        <div className="hand" style={{ fontSize: 28, lineHeight: 1.1 }}>
+          What should we call you?
+        </div>
+        <div className="tiny muted">Just a display name. No email, no password.</div>
+        <input className="input" defaultValue="Marco" />
+        <div className="tile" style={{ background: 'var(--warn-soft)', borderColor: 'var(--warn)' }}>
+          <div className="tiny" style={{ color: 'var(--warn)', fontWeight: 700 }}>⚠ Save your link</div>
+          <div className="tiny">This link IS your login. Bookmark it.</div>
+          <div className="mono" style={{ fontSize: 10, marginTop: 4, background: 'var(--paper)', padding: '4px 6px', borderRadius: 4, wordBreak: 'break-all' }}>
+            chip.fc/m/9k2-Xa7pQ
+          </div>
+        </div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Copy link & continue →</div>
+        </div>
+      </div>
+      <div className="kb-hint" />
+    </>
+  );
+}
+
+// Screen 4: Browse / pick golfers
+function ScreenPickGolfers() {
+  // Screen 4 on the storyboard: this player is mid-flow — picks locked for Top 10 & 11-20,
+  // currently browsing 21-30, tier 31+ still untouched. Headers stick as you scroll.
+  const tiers = [
+    { label: 'TOP 10',      golfers: GOLFERS.t10,   pickedIdx: 0,    show: 10 },
+    { label: 'RANKS 11–20', golfers: GOLFERS.t20,   pickedIdx: 1,    show: 10 },
+    { label: 'RANKS 21–30', golfers: GOLFERS.t30,   pickedIdx: null, show: 10, active: true },
+    { label: 'RANKS 31+',   golfers: GOLFERS.tPlus, pickedIdx: null, show: 10, loadMore: true },
+  ];
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Make picks" action="3/4" />
+      <div className="screen-body" style={{ padding: 0, position: 'relative' }}>
+        {tiers.map((t, i) => (
+          <div key={i}>
+            <div style={{
+              position: 'sticky', top: 0, zIndex: 2,
+              background: 'var(--paper)',
+              borderTop: i === 0 ? 0 : '1px solid var(--ink)',
+              borderBottom: '1.5px solid var(--ink)',
+              padding: '6px 12px',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            }}>
+              <TierHeader label={t.label} />
+              {t.pickedIdx !== null
+                ? <span className="chip accent">✓ picked</span>
+                : t.active
+                  ? <span className="chip warn">tap to pick</span>
+                  : <span className="tiny muted">choose 1 of {t.golfers.length}</span>}
+            </div>
+            <div style={{ padding: '4px 12px 8px' }}>
+              {t.golfers.slice(0, t.show).map((g, j) => (
+                <GolferRow key={j} {...g} picked={j === t.pickedIdx} />
+              ))}
+              {t.loadMore && t.golfers.length > 10 && (
+                <div style={{
+                  textAlign: 'center', padding: '8px 4px', marginTop: 4,
+                  border: '1px dashed var(--ink)', borderRadius: 6,
+                  fontFamily: 'Caveat, cursive', fontSize: 18,
+                  color: 'var(--ink-2)',
+                }}>
+                  load {t.golfers.length - 10} more ↓
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// Screen 5: Confirm picks / holding
+function ScreenLockedIn() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar title="You're in" action="Edit" />
+      <div className="screen-body stack-12" style={{ paddingTop: 16 }}>
+        <div className="tiny" style={{ textTransform: 'uppercase', letterSpacing: 1.5 }}>Your 4</div>
+        <div className="tile stack-8">
+          <GolferRow {...GOLFERS.t10[0]} picked showDot={false} />
+          <GolferRow {...GOLFERS.t20[1]} picked showDot={false} />
+          <GolferRow {...GOLFERS.t30[0]} picked showDot={false} />
+          <GolferRow {...GOLFERS.tPlus[1]} picked showDot={false} />
+        </div>
+        <div className="divider-hand" />
+        <div className="center-txt">
+          <div className="hand" style={{ fontSize: 24, lineHeight: 1 }}>Picks reveal in</div>
+          <div className="mono" style={{ fontSize: 28, marginTop: 6 }}>02:41:07</div>
+          <div className="tiny muted" style={{ marginTop: 2 }}>until Thursday 7:00 AM ET</div>
+        </div>
+        <div className="row" style={{ marginTop: 'auto' }}>
+          <div className="chip solid">3 of 4 in</div>
+          <span className="tiny muted">waiting on Sam</span>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ── Storyboard layout ────────────────────────────────────
+function Storyboard() {
+  const steps = [
+    { role: 'Host',   num: '01', caption: 'Landing.\nTwo paths.', screen: <ScreenLanding /> },
+    { role: 'Host',   num: '02', caption: 'Host sets up\nthe group.',    screen: <ScreenCreateGroup /> },
+    { role: 'Joiner', num: '02', caption: 'Joiner enters\nthe code.',    screen: <ScreenJoinCode /> },
+    { role: 'Joiner', num: '03', caption: 'Name yourself.\nSave the link.', screen: <ScreenDisplayName /> },
+    { role: 'Joiner', num: '04', caption: 'Pick 4 — one\nper tier.',       screen: <ScreenPickGolfers /> },
+    { role: 'Joiner', num: '05', caption: 'Locked in.\nWait for tee-off.', screen: <ScreenLockedIn /> },
+  ];
+  return (
+    <div className="storyboard">
+      {steps.map((s, i) => (
+        <React.Fragment key={i}>
+          <Phone roleTag={s.role} stepNum={s.num} caption={s.caption}>
+            {s.screen}
+          </Phone>
+          {i < steps.length - 1 && <Arrow />}
+        </React.Fragment>
+      ))}
+    </div>
+  );
+}
+
+Object.assign(window, {
+  Storyboard,
+  ScreenLanding, ScreenCreateGroup, ScreenJoinCode,
+  ScreenDisplayName, ScreenPickGolfers, ScreenLockedIn,
+});
+
+
+/* eslint-disable */
+// Variations for each of the 6 screens. 3 per screen, labelled with the
+// dimension each variation explores (layout / nav / picks UX / tone).
+
+// ═════════════════════════════════════════════════════════
+// 1. LANDING / WELCOME
+// ═════════════════════════════════════════════════════════
+
+// A. Minimal — ultra-bare, centered stack
+function LandingA() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body center pad-lg">
+        <div style={{ fontFamily: 'Caveat, cursive', fontSize: 52, lineHeight: 0.95, fontWeight: 700 }}>
+          The<br/>Chipping<br/>Forecast
+        </div>
+        <div className="tiny" style={{ maxWidth: 200 }}>Pick 4 golfers. Lowest combined finish wins.</div>
+        <div className="col" style={{ width: '100%', gap: 10, marginTop: 20 }}>
+          <div className="btn primary full">Start a group</div>
+          <div className="btn full">Join with code</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// B. Playful — hand-drawn scene, illustration placeholder, trophy
+function LandingB() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body pad-lg" style={{ padding: 18 }}>
+        <div className="hand" style={{ fontSize: 20, color: 'var(--ink-2)' }}>welcome to…</div>
+        <div style={{ fontFamily: 'Caveat, cursive', fontSize: 44, lineHeight: 0.95, fontWeight: 700, marginTop: 4 }}>
+          The Chipping<br/>Forecast <span className="scribble">⛳</span>
+        </div>
+        {/* illustration placeholder */}
+        <div style={{
+          marginTop: 16, height: 140, border: '1.5px dashed var(--ink)', borderRadius: 8,
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          background: 'repeating-linear-gradient(45deg, var(--paper), var(--paper) 8px, var(--paper-2) 8px, var(--paper-2) 9px)',
+          flexDirection: 'column', gap: 4,
+        }}>
+          <div className="hand" style={{ fontSize: 22 }}>🏆 + ⛳ + 👥</div>
+          <div className="tiny muted">illustration</div>
+        </div>
+        <ol style={{ paddingLeft: 18, marginTop: 14, fontSize: 13 }}>
+          <li>Pick 1 from each tier (4 total)</li>
+          <li>Your score = their finishes added up</li>
+          <li>Lowest wins. Loser buys.</li>
+        </ol>
+        <div className="col" style={{ gap: 8, marginTop: 14 }}>
+          <div className="btn primary full">+ Start a group</div>
+          <div className="btn full">Join with code</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// C. Tournament-aware — featured tournament up top, nav patterns visible
+function LandingC() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body" style={{ padding: 14 }}>
+        <div style={{ fontFamily: 'Caveat, cursive', fontSize: 32, fontWeight: 700, lineHeight: 1 }}>
+          Chipping Forecast
+        </div>
+        <div className="tier-label" style={{ marginTop: 10 }}>This week</div>
+        <div className="tile" style={{ marginTop: 6, background: 'var(--accent-soft)', borderColor: 'var(--accent)' }}>
+          <div className="tile-head">
+            <div style={{ fontFamily: 'Caveat, cursive', fontSize: 22, fontWeight: 700 }}>The Masters '26</div>
+            <span className="chip">LIVE THU</span>
+          </div>
+          <div className="tiny">Augusta National · tees off Thu 8 AM ET</div>
+          <div className="tiny muted" style={{ marginTop: 4 }}>pick deadline: Thu 7:00 AM</div>
+        </div>
+        <div className="tier-label" style={{ marginTop: 16 }}>Get started</div>
+        <div className="col" style={{ gap: 8, marginTop: 6 }}>
+          <div className="tile row" style={{ justifyContent: 'space-between' }}>
+            <div>
+              <div className="hand" style={{ fontSize: 20, fontWeight: 700 }}>Start a group</div>
+              <div className="tiny muted">Invite friends with a code</div>
+            </div>
+            <span className="hand" style={{ fontSize: 24 }}>→</span>
+          </div>
+          <div className="tile row" style={{ justifyContent: 'space-between' }}>
+            <div>
+              <div className="hand" style={{ fontSize: 20, fontWeight: 700 }}>Join a group</div>
+              <div className="tiny muted">Got a 6-char code?</div>
+            </div>
+            <span className="hand" style={{ fontSize: 24 }}>→</span>
+          </div>
+        </div>
+        <div className="tiny muted center-txt" style={{ marginTop: 18 }}>
+          no accounts · no apps · just a link
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═════════════════════════════════════════════════════════
+// 2. CREATE GROUP (host)
+// ═════════════════════════════════════════════════════════
+
+// A. One long form
+function CreateA() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="New group" />
+      <div className="screen-body stack-12">
+        <div className="field">
+          <label>Group name</label>
+          <input className="input" defaultValue="Sunday Sandbaggers" />
+        </div>
+        <div className="field">
+          <label>Tournament</label>
+          <div className="input row" style={{ justifyContent: 'space-between' }}>
+            <span style={{ fontSize: 16 }}>The Masters '26</span><span className="tiny">›</span>
+          </div>
+        </div>
+        <div className="field">
+          <label>Pick deadline</label>
+          <div className="tile" style={{ padding: 8 }}>
+            <div className="tiny">Thu · 7:00 AM ET</div>
+            <div className="tiny muted">1hr before tee-off (auto)</div>
+          </div>
+        </div>
+        <div className="field">
+          <label>Your name</label>
+          <input className="input" defaultValue="Marco" />
+        </div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Create →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// B. Wizard (step of 3)
+function CreateB() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Step 1 of 3" />
+      <div className="screen-body stack-12" style={{ paddingTop: 22 }}>
+        <WizardDots total={3} active={0} />
+        <div className="hand" style={{ fontSize: 28, lineHeight: 1 }}>Name your group.</div>
+        <div className="tiny muted">Something your friends will recognize.</div>
+        <input className="input" defaultValue="Sunday Sandbaggers" />
+        <div className="row" style={{ flexWrap: 'wrap', gap: 6 }}>
+          <span className="chip">Sunday Sandbaggers</span>
+          <span className="chip">The Foursome</span>
+          <span className="chip">Bogey Boys</span>
+        </div>
+        <div className="tiny muted">← suggestions</div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Next: pick tournament →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+function WizardDots({ total, active }) {
+  return (
+    <div className="wizard-dots">
+      {Array.from({ length: total }).map((_, i) => (
+        <div key={i} className={"dot " + (i < active ? 'done' : i === active ? 'active' : '')} />
+      ))}
+    </div>
+  );
+}
+
+// C. Bottom-sheet / card-based quick create
+function CreateC() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body" style={{ padding: 0, position: 'relative', background: 'rgba(0,0,0,0.08)' }}>
+        {/* Background hint of landing */}
+        <div style={{ position: 'absolute', inset: 0, padding: 18, opacity: 0.4 }}>
+          <div className="hand" style={{ fontSize: 28, fontWeight: 700 }}>Chipping Forecast</div>
+          <div className="tile" style={{ marginTop: 10, height: 70 }} />
+        </div>
+        {/* Sheet */}
+        <div style={{
+          position: 'absolute', left: 0, right: 0, bottom: 0,
+          background: 'var(--paper)', borderTop: '2px solid var(--ink)',
+          borderRadius: '20px 20px 0 0', padding: '12px 16px 20px',
+          boxShadow: '0 -4px 10px rgba(0,0,0,0.08)',
+        }}>
+          <div style={{ width: 40, height: 4, background: 'var(--ink-3)', borderRadius: 2, margin: '0 auto 10px' }} />
+          <div className="hand" style={{ fontSize: 24, fontWeight: 700 }}>New group</div>
+          <div className="col" style={{ gap: 8, marginTop: 10 }}>
+            <input className="input" defaultValue="Sunday Sandbaggers" />
+            <div className="input row" style={{ justifyContent: 'space-between' }}>
+              <span style={{ fontSize: 15 }}>The Masters '26</span><span className="tiny">change ›</span>
+            </div>
+            <div className="tiny muted">Deadline auto-set to 1hr before tee-off.</div>
+            <div className="btn accent full" style={{ marginTop: 6 }}>Create →</div>
+          </div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═════════════════════════════════════════════════════════
+// 3. JOIN CODE
+// ═════════════════════════════════════════════════════════
+
+// A. Big code input
+function JoinA() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Join" />
+      <div className="screen-body stack-16" style={{ paddingTop: 36 }}>
+        <div className="hand center-txt" style={{ fontSize: 26 }}>Enter your code</div>
+        <input className="input mono" defaultValue="GRN-4FT" style={{ fontSize: 24, padding: '14px 12px' }} />
+        <div className="tiny center-txt muted">6 characters, not case-sensitive</div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Find group →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// B. Digit boxes (iMessage verification style)
+function JoinB() {
+  const chars = ['G','R','N','4','F','T'];
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Join" />
+      <div className="screen-body" style={{ paddingTop: 28 }}>
+        <div className="hand center-txt" style={{ fontSize: 24, marginBottom: 4 }}>Your invite code</div>
+        <div className="tiny center-txt muted" style={{ marginBottom: 20 }}>From the friend who made the group</div>
+        <div className="row" style={{ justifyContent: 'center', gap: 6 }}>
+          {chars.map((c, i) => (
+            <div key={i} style={{
+              width: 32, height: 40, border: '1.5px solid var(--ink)', borderRadius: 6,
+              display: 'flex', alignItems: 'center', justifyContent: 'center',
+              fontFamily: 'JetBrains Mono, monospace', fontSize: 20,
+              background: i < 3 ? 'var(--paper)' : 'var(--paper-2)',
+            }}>{i < 5 ? c : ''}</div>
+          ))}
+        </div>
+        <div className="tiny center-txt muted" style={{ marginTop: 14 }}>
+          <span className="scribble">Paste from clipboard</span>
+        </div>
+      </div>
+      <div className="kb-hint" />
+    </>
+  );
+}
+
+// C. Link-first (opened a deep link)
+function JoinC() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="" />
+      <div className="screen-body stack-12" style={{ paddingTop: 20 }}>
+        <div className="chip warn" style={{ alignSelf: 'flex-start' }}>Invited via link</div>
+        <div className="hand" style={{ fontSize: 28, lineHeight: 1 }}>Marco invited you to</div>
+        <div className="hand" style={{ fontSize: 32, fontWeight: 700, lineHeight: 1 }}>
+          Sunday Sandbaggers
+        </div>
+        <div className="tile">
+          <div className="tiny" style={{ textTransform: 'uppercase', letterSpacing: 1.5 }}>Playing for</div>
+          <div className="hand" style={{ fontSize: 22, fontWeight: 700 }}>The Masters '26</div>
+          <div className="tiny muted">5 other players · deadline Thu 7 AM</div>
+        </div>
+        <div className="col" style={{ gap: 8 }}>
+          <GolferRow rank={1} name="Marco" meta="host" showDot={false} avatarTxt="M" />
+          <GolferRow rank="" name="Priya" showDot={false} avatarTxt="P" />
+          <GolferRow rank="" name="Jay" showDot={false} avatarTxt="J" />
+          <div className="tiny muted" style={{ textAlign: 'center' }}>+ 3 more</div>
+        </div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Join this group →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═════════════════════════════════════════════════════════
+// 4. DISPLAY NAME + LINK
+// ═════════════════════════════════════════════════════════
+
+// A. Two-step: name, then link reveal
+function NameA() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Your name" />
+      <div className="screen-body stack-12" style={{ paddingTop: 22 }}>
+        <div className="hand" style={{ fontSize: 26, lineHeight: 1 }}>Name yourself</div>
+        <div className="tiny muted">No email. No password. Just a name on the board.</div>
+        <input className="input" defaultValue="Marco" />
+        <div className="tiny muted">Already used? We'll append a tag.</div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">Continue →</div>
+        </div>
+      </div>
+      <div className="kb-hint" />
+    </>
+  );
+}
+
+// B. Name + link together, with prominent save warning
+function NameB() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Nearly in" />
+      <div className="screen-body stack-12">
+        <div className="field">
+          <label>Display name</label>
+          <input className="input" defaultValue="Marco" />
+        </div>
+        <div className="divider-hand" />
+        <div style={{
+          border: '2px solid var(--warn)', borderRadius: 8, padding: 10,
+          background: 'var(--warn-soft)',
+        }}>
+          <div className="hand" style={{ fontSize: 22, fontWeight: 700, color: 'var(--warn)' }}>
+            ⚠ This is your login
+          </div>
+          <div className="tiny" style={{ marginTop: 2 }}>
+            We don't do passwords. The link below IS your account. Save it.
+          </div>
+          <div className="mono" style={{
+            fontSize: 11, marginTop: 8, padding: '6px 8px',
+            background: 'var(--paper)', borderRadius: 4,
+            border: '1px dashed var(--warn)', wordBreak: 'break-all',
+          }}>chip.fc/m/9k2-Xa7pQ</div>
+          <div className="row" style={{ gap: 6, marginTop: 8 }}>
+            <div className="btn sm">📋 Copy</div>
+            <div className="btn sm">✉ Email me</div>
+            <div className="btn sm">🔖 Bookmark</div>
+          </div>
+        </div>
+        <div style={{ marginTop: 'auto' }}>
+          <div className="btn accent full">I saved it — make picks →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// C. Minimal / confident tone — just show name and a single "magic link" chip
+function NameC() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body" style={{ paddingTop: 42, padding: 22 }}>
+        <div className="hand" style={{ fontSize: 34, fontWeight: 700, lineHeight: 1 }}>
+          hey there 👋
+        </div>
+        <div className="hand" style={{ fontSize: 24, lineHeight: 1.1, marginTop: 4, color: 'var(--ink-2)' }}>
+          what's your name?
+        </div>
+        <input className="input" style={{ marginTop: 18, fontSize: 28, padding: 14 }} defaultValue="Marco" />
+        <div className="tile" style={{ marginTop: 14, padding: 8 }}>
+          <div className="tiny muted">Your personal link</div>
+          <div className="mono" style={{ fontSize: 12, marginTop: 2 }}>chip.fc/m/9k2-Xa7pQ</div>
+          <div className="row" style={{ justifyContent: 'space-between', marginTop: 6 }}>
+            <span className="tiny">we'll text it to you</span>
+            <span className="chip accent">✓ sent</span>
+          </div>
+        </div>
+        <div className="btn accent full" style={{ marginTop: 18 }}>let's pick →</div>
+      </div>
+    </>
+  );
+}
+
+// ═════════════════════════════════════════════════════════
+// 5. PICK GOLFERS (the core moment)
+// ═════════════════════════════════════════════════════════
+
+// A. Single scroll — all four tiers stacked, STICKY headers, checkbox-style
+function PicksA() {
+  const [showAllPlus, setShowAllPlus] = React.useState(false);
+  const tiers = [
+    { label: 'TOP 10',      golfers: GOLFERS.t10,   pickedIdx: 0,    show: 10 },
+    { label: 'RANKS 11–20', golfers: GOLFERS.t20,   pickedIdx: 1,    show: 10 },
+    { label: 'RANKS 21–30', golfers: GOLFERS.t30,   pickedIdx: null, show: 10 },
+    { label: 'RANKS 31+',   golfers: GOLFERS.tPlus, pickedIdx: null, show: showAllPlus ? GOLFERS.tPlus.length : 10, loadMore: true },
+  ];
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Make picks" action="2/4" />
+      <div className="screen-body" style={{ padding: 0, position: 'relative' }}>
+        {tiers.map((t, i) => (
+          <div key={i}>
+            <div style={{
+              position: 'sticky', top: 0, zIndex: 2,
+              background: 'var(--paper)',
+              borderTop: i === 0 ? 0 : '1px solid var(--ink)',
+              borderBottom: '1.5px solid var(--ink)',
+              padding: '6px 12px',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center',
+            }}>
+              <TierHeader label={t.label} />
+              {t.pickedIdx !== null
+                ? <span className="chip accent">✓ picked</span>
+                : <span className="tiny muted">choose 1 of {t.golfers.length}</span>}
+            </div>
+            <div style={{ padding: '4px 12px 8px' }}>
+              {t.golfers.slice(0, t.show).map((g, j) => (
+                <GolferRow key={j} {...g} picked={j === t.pickedIdx} />
+              ))}
+              {t.loadMore && !showAllPlus && t.golfers.length > 10 && (
+                <div
+                  onClick={() => setShowAllPlus(true)}
+                  style={{
+                    textAlign: 'center', padding: '8px 4px', marginTop: 4,
+                    border: '1px dashed var(--ink)', borderRadius: 6,
+                    fontFamily: 'Caveat, cursive', fontSize: 18,
+                    cursor: 'pointer', color: 'var(--ink-2)',
+                  }}>
+                  load {t.golfers.length - 10} more ↓
+                </div>
+              )}
+            </div>
+          </div>
+        ))}
+      </div>
+    </>
+  );
+}
+
+// B. Tier-by-tier wizard (rich golfer cards, one tier at a time)
+function PicksB() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Ranks 11–20" action="Skip ›" />
+      <div className="screen-body" style={{ padding: '10px 14px' }}>
+        <WizardDots total={4} active={1} />
+        <div className="hand center-txt" style={{ fontSize: 22, margin: '6px 0 10px' }}>Pick one from this tier</div>
+        {GOLFERS.t20.slice(0, 4).map((g, i) => (
+          <div key={i} className="tile" style={{
+            marginBottom: 8,
+            background: i === 1 ? 'var(--accent-soft)' : 'var(--paper)',
+            borderColor: i === 1 ? 'var(--accent)' : 'var(--ink)',
+          }}>
+            <div className="row" style={{ justifyContent: 'space-between' }}>
+              <div>
+                <div className="hand" style={{ fontSize: 20, fontWeight: 700, lineHeight: 1 }}>{g.name}</div>
+                <div className="tiny muted">World #{g.rank} · Odds {g.meta}</div>
+              </div>
+              <div className="pick-dot" style={{
+                background: i === 1 ? 'var(--accent)' : 'var(--paper)',
+                borderColor: i === 1 ? 'var(--accent)' : 'var(--ink)',
+              }} />
+            </div>
+            <div className="row" style={{ gap: 6, marginTop: 6, fontSize: 10 }}>
+              <span className="chip">Form T8</span>
+              <span className="chip">T12</span>
+              <span className="chip">CUT</span>
+              <span className="chip">T4</span>
+            </div>
+          </div>
+        ))}
+      </div>
+      <div style={{ padding: 10, borderTop: '1.5px solid var(--ink)', background: 'var(--paper-2)' }}>
+        <div className="btn accent full">Lock & next →</div>
+      </div>
+    </>
+  );
+}
+
+// C. Tabs across tiers + richer detail row
+function PicksC() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Pick your 4" />
+      {/* Tier tabs */}
+      <div style={{ display: 'flex', borderBottom: '1.5px solid var(--ink)', padding: '0 8px' }}>
+        {['T10','11-20','21-30','31+'].map((t, i) => (
+          <div key={i} style={{
+            flex: 1, textAlign: 'center', padding: '8px 0',
+            fontFamily: 'Caveat, cursive', fontSize: 18,
+            borderBottom: i === 2 ? '2px solid var(--ink)' : '2px solid transparent',
+            background: i === 2 ? 'var(--paper)' : 'transparent',
+            color: i === 2 ? 'var(--ink)' : 'var(--ink-3)',
+            position: 'relative',
+          }}>
+            {t}
+            {(i === 0 || i === 1) && <div style={{
+              position: 'absolute', top: 4, right: 10,
+              width: 6, height: 6, borderRadius: 50, background: 'var(--accent)',
+            }} />}
+          </div>
+        ))}
+      </div>
+      <div className="screen-body" style={{ padding: 10 }}>
+        {GOLFERS.t30.slice(0, 4).map((g, i) => (
+          <div key={i} className="tile" style={{ marginBottom: 6, padding: 8 }}>
+            <div className="row" style={{ justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div className="row">
+                <div className="avatar" style={{
+                  width: 36, height: 36, borderRadius: '50%',
+                  border: '1.5px solid var(--ink)', background: 'var(--paper-2)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'Caveat, cursive', fontWeight: 700,
+                }}>{g.name[0]}</div>
+                <div>
+                  <div className="hand" style={{ fontSize: 18, fontWeight: 700, lineHeight: 1 }}>{g.name}</div>
+                  <div className="tiny muted">#{g.rank} · odds {g.meta}</div>
+                </div>
+              </div>
+              <div className="btn sm">pick</div>
+            </div>
+            <div className="row" style={{ gap: 4, marginTop: 6 }}>
+              <div className="tiny muted">last 5:</div>
+              {['T8','T22','CUT','T14','T4'].map((f, j) => (
+                <span key={j} className="chip" style={{
+                  fontSize: 9, padding: '1px 5px',
+                  background: f === 'CUT' ? 'var(--warn-soft)' : 'var(--paper)',
+                }}>{f}</span>
+              ))}
+            </div>
+          </div>
+        ))}
+      </div>
+      {/* footer */}
+      <div style={{ padding: '6px 10px', borderTop: '1.5px solid var(--ink)', background: 'var(--paper-2)' }}>
+        <div className="row" style={{ justifyContent: 'space-between' }}>
+          <span className="tiny">2 of 4 picked</span>
+          <div className="btn sm accent">Review →</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═════════════════════════════════════════════════════════
+// 6. LOCKED IN / HOLDING
+// ═════════════════════════════════════════════════════════
+
+// A. Countdown-forward
+function LockedA() {
+  return (
+    <>
+      <StatusBar />
+      <TopBar title="You're in" action="Edit" />
+      <div className="screen-body stack-12" style={{ paddingTop: 18 }}>
+        <div className="center-txt">
+          <div className="hand" style={{ fontSize: 22 }}>Picks reveal in</div>
+          <div className="mono" style={{ fontSize: 36, marginTop: 4, lineHeight: 1 }}>02:41:07</div>
+          <div className="tiny muted">Thu · 7:00 AM ET</div>
+        </div>
+        <div className="divider-hand" />
+        <div className="tier-label">YOUR 4 (hidden from others)</div>
+        <div className="tile stack-8">
+          <GolferRow {...GOLFERS.t10[0]} picked showDot={false} />
+          <GolferRow {...GOLFERS.t20[1]} picked showDot={false} />
+          <GolferRow {...GOLFERS.t30[0]} picked showDot={false} />
+          <GolferRow {...GOLFERS.tPlus[1]} picked showDot={false} />
+        </div>
+      </div>
+      <TabBar active="picks" />
+    </>
+  );
+}
+
+// B. Group-forward — who's in, who's not
+function LockedB() {
+  const members = [
+    { name: 'Marco', status: 'host · in' },
+    { name: 'Priya', status: 'in' },
+    { name: 'Jay',   status: 'in' },
+    { name: 'Sam',   status: '2/4 picked' },
+    { name: 'Dev',   status: 'in' },
+    { name: 'Noor',  status: 'not started' },
+  ];
+  return (
+    <>
+      <StatusBar />
+      <TopBar back title="Sandbaggers" action="Share" />
+      <div className="screen-body stack-12">
+        <div className="tile row" style={{ justifyContent: 'space-between', background: 'var(--accent-soft)' }}>
+          <div>
+            <div className="tiny">PICKS REVEAL</div>
+            <div className="hand" style={{ fontSize: 22, fontWeight: 700 }}>in 2h 41m</div>
+          </div>
+          <div className="hand" style={{ fontSize: 42, lineHeight: 1 }}>⛳</div>
+        </div>
+        <div className="tier-label">GROUP (4 / 6 IN)</div>
+        <div className="col" style={{ gap: 0 }}>
+          {members.map((m, i) => (
+            <div key={i} className="row" style={{
+              padding: '8px 4px', borderBottom: i < members.length - 1 ? '1px dashed var(--line-soft)' : 0,
+              justifyContent: 'space-between',
+            }}>
+              <div className="row">
+                <div className="avatar" style={{
+                  width: 26, height: 26, borderRadius: '50%',
+                  border: '1.5px solid var(--ink)',
+                  display: 'flex', alignItems: 'center', justifyContent: 'center',
+                  fontFamily: 'Caveat, cursive', fontSize: 12,
+                }}>{m.name[0]}</div>
+                <span style={{ fontFamily: 'Architects Daughter', fontSize: 13 }}>{m.name}</span>
+              </div>
+              <span className={"chip " + (m.status.includes('in') ? 'accent' : 'warn')} style={{ fontSize: 10 }}>{m.status}</span>
+            </div>
+          ))}
+        </div>
+        <div className="btn full">View my picks →</div>
+      </div>
+      <TabBar active="group" />
+    </>
+  );
+}
+
+// C. Playful "sealed envelope" tone — reassuring confirmation
+function LockedC() {
+  return (
+    <>
+      <StatusBar />
+      <div className="screen-body center pad-lg" style={{ gap: 12 }}>
+        <div style={{
+          width: 140, height: 100, border: '2px solid var(--ink)', borderRadius: 6,
+          background: 'var(--paper-2)', position: 'relative',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+        }}>
+          {/* envelope */}
+          <svg width="140" height="100" viewBox="0 0 140 100" style={{ position: 'absolute', inset: 0 }}>
+            <path d="M2 30 L 70 66 L 138 30" stroke="#1A1A1A" strokeWidth="1.5" fill="none"/>
+            <rect x="2" y="30" width="136" height="60" stroke="#1A1A1A" strokeWidth="1.5" fill="none"/>
+          </svg>
+          <div className="chip warn" style={{
+            position: 'absolute', top: '50%', left: '50%',
+            transform: 'translate(-50%, -50%) rotate(-8deg)',
+            fontSize: 10, fontWeight: 700,
+          }}>SEALED</div>
+        </div>
+        <div className="hand" style={{ fontSize: 28, lineHeight: 1, fontWeight: 700 }}>Picks locked in.</div>
+        <div className="tiny muted" style={{ maxWidth: 220 }}>
+          Hidden from your group until Thu 7 AM. No one can see — not even us.
+        </div>
+        <div className="mono" style={{ fontSize: 22, marginTop: 4 }}>02:41:07</div>
+        <div className="tiny muted">until reveal</div>
+        <div className="row" style={{ gap: 8, marginTop: 8 }}>
+          <div className="btn sm">Edit picks</div>
+          <div className="btn sm">Invite friends</div>
+        </div>
+      </div>
+    </>
+  );
+}
+
+// ═════════════════════════════════════════════════════════
+// Assemble per-screen variation rows
+// ═════════════════════════════════════════════════════════
+
+const VARIATIONS = [
+  {
+    num: '01',
+    title: 'Landing / Welcome',
+    note: 'Sets onboarding tone — this one choice colors the whole app.',
+    options: [
+      { name: 'Minimal', desc: 'Title + 2 buttons. Zero explanation.', Screen: LandingA, focus: 'tone: serious' },
+      { name: 'Playful', desc: 'Illustration, 3-step how-it-works, hand-drawn.', Screen: LandingB, focus: 'tone: playful' },
+      { name: 'Tournament-first', desc: 'This week\'s event is the hero. Start/join as list items.', Screen: LandingC, focus: 'hierarchy' },
+    ],
+  },
+  {
+    num: '02a',
+    title: 'Create group (host)',
+    note: 'How much setup do we want upfront?',
+    options: [
+      { name: 'Single form', desc: 'Everything on one screen. Fast for returning users.', Screen: CreateA, focus: 'layout' },
+      { name: '3-step wizard', desc: 'One thing at a time. Progress dots.', Screen: CreateB, focus: 'navigation' },
+      { name: 'Bottom sheet', desc: 'Appears over the landing. Feels lightweight.', Screen: CreateC, focus: 'navigation' },
+    ],
+  },
+  {
+    num: '02b',
+    title: 'Join with code',
+    note: 'Often opened from a text message.',
+    options: [
+      { name: 'Code input', desc: 'One big text field. Paste-friendly.', Screen: JoinA, focus: 'layout' },
+      { name: 'Digit boxes', desc: 'Like 2FA codes — satisfying feedback per char.', Screen: JoinB, focus: 'picks UX pattern' },
+      { name: 'Deep-link preview', desc: 'Code pre-filled. See the group before joining.', Screen: JoinC, focus: 'hierarchy' },
+    ],
+  },
+  {
+    num: '03',
+    title: 'Display name + save link',
+    note: '"No accounts" is load-bearing — the link IS the account.',
+    options: [
+      { name: 'Name only', desc: 'Link shown on the next screen. Less to read.', Screen: NameA, focus: 'navigation' },
+      { name: 'Name + warning', desc: 'Prominent save-your-link card. Safest.', Screen: NameB, focus: 'tone: serious' },
+      { name: 'Chatty / confident', desc: '"We\'ll text it to you." Lowest-friction.', Screen: NameC, focus: 'tone: playful' },
+    ],
+  },
+  {
+    num: '04',
+    title: 'Pick golfers (core)',
+    note: '4 tiers × 1 pick each. Rich golfer info matters.',
+    options: [
+      { name: 'Single scroll', desc: 'All four tiers stacked. See everything at once.', Screen: PicksA, focus: 'layout' },
+      { name: 'Tier-by-tier wizard', desc: 'Rich cards per tier. One at a time.', Screen: PicksB, focus: 'picks UX' },
+      { name: 'Tabs + detail row', desc: 'Tier tabs up top. Richer last-5 info.', Screen: PicksC, focus: 'navigation' },
+    ],
+  },
+  {
+    num: '05',
+    title: 'Locked in — pre-deadline hold',
+    note: 'Whose context matters more: mine, my group, or the countdown?',
+    options: [
+      { name: 'Countdown-first', desc: 'Big timer. My picks below. Simple.', Screen: LockedA, focus: 'hierarchy' },
+      { name: 'Group-first', desc: 'Who\'s in, who\'s not. Social accountability.', Screen: LockedB, focus: 'hierarchy' },
+      { name: 'Sealed envelope', desc: '"Your picks are hidden." Reassures tone.', Screen: LockedC, focus: 'tone: playful' },
+    ],
+  },
+];
+
+Object.assign(window, { VARIATIONS });
+
+  </script>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel" data-presets="react">
+    const { useState, useEffect } = React;
+
+    function App() {
+      // Persist tab choice
+      const [view, setView] = useState(() => localStorage.getItem('cf_view') || 'flow');
+      useEffect(() => { localStorage.setItem('cf_view', view); }, [view]);
+
+      return (
+        <div className="page">
+          <header className="masthead">
+            <div className="title">
+              <h1>The Chipping Forecast</h1>
+              <span className="stamp">Wireframes v1</span>
+            </div>
+            <div className="sub">
+              Lightweight golf prediction game. No accounts. 4 picks per player,
+              one per world-ranking tier. Lowest combined finish wins.
+            </div>
+          </header>
+
+          <div className="section-tabs">
+            <button
+              className={view === 'flow' ? 'active' : ''}
+              onClick={() => setView('flow')}>Happy path</button>
+            <button
+              className={view === 'variations' ? 'active' : ''}
+              onClick={() => setView('variations')}>Screen variations</button>
+            <button
+              className={view === 'system' ? 'active' : ''}
+              onClick={() => setView('system')}>Notes & system</button>
+          </div>
+
+          {view === 'flow' && <FlowView />}
+          {view === 'variations' && <VariationsView />}
+          {view === 'system' && <SystemView />}
+
+          <footer style={{
+            marginTop: 80, paddingTop: 20, borderTop: '1px dashed var(--line-soft)',
+            fontFamily: 'Architects Daughter, sans-serif', fontSize: 12, color: 'var(--ink-3)',
+          }}>
+            wireframes · marked up in tidy lo-fi · not final visuals
+          </footer>
+        </div>
+      );
+    }
+
+    function FlowView() {
+      return (
+        <Section num="→" title="Happy path" note="6 frames, host + joiner, landing to locked-in">
+          <Storyboard />
+          <div style={{ marginTop: 32, padding: 16, border: '1.5px dashed var(--line-soft)', borderRadius: 8, background: 'var(--paper-2)' }}>
+            <div className="hand" style={{ fontSize: 20, fontWeight: 700 }}>Flow notes</div>
+            <ul style={{ fontSize: 13, paddingLeft: 20, marginTop: 6, lineHeight: 1.6 }}>
+              <li><b>Host & joiner diverge</b> at step 02, then rejoin at 03 (name + save link).</li>
+              <li><b>The "save your link" moment</b> is the highest-risk screen — if users skip it, they lose access. See variations for handling.</li>
+              <li><b>Picks screen</b> is the core interaction. Everything else should get out of its way.</li>
+              <li><b>Locked-in</b> is a holding state — it becomes the home screen until reveal.</li>
+              <li>Not shown yet: reveal, live leaderboard, my-picks detail, finished. Next pass.</li>
+            </ul>
+          </div>
+        </Section>
+      );
+    }
+
+    function VariationsView() {
+      return (
+        <>
+          {VARIATIONS.map((screen, i) => (
+            <Section key={i} num={screen.num} title={screen.title} note={screen.note}>
+              <div className="variations">
+                {screen.options.map((opt, j) => (
+                  <Variation key={j} name={opt.name} desc={opt.desc}>
+                    <div className="phone phone-lg">
+                      <div className="phone-screen">
+                        <opt.Screen />
+                      </div>
+                    </div>
+                    <div className="tiny" style={{
+                      fontFamily: 'JetBrains Mono, monospace', fontSize: 9,
+                      letterSpacing: 1.5, textTransform: 'uppercase',
+                      color: 'var(--ink-3)', marginTop: 4,
+                    }}>
+                      explores: {opt.focus}
+                    </div>
+                  </Variation>
+                ))}
+              </div>
+            </Section>
+          ))}
+        </>
+      );
+    }
+
+    function SystemView() {
+      return (
+        <>
+          <Section num="✎" title="System & decisions" note="working notes, to firm up with you">
+            <div style={{
+              display: 'grid',
+              gridTemplateColumns: 'repeat(2, 1fr)',
+              gap: 24,
+            }}>
+              <div className="tile" style={{ padding: 18 }}>
+                <div className="hand" style={{ fontSize: 26, fontWeight: 700 }}>Core loop</div>
+                <ol style={{ fontSize: 14, lineHeight: 1.6, paddingLeft: 20 }}>
+                  <li>Host creates group → gets 6-char code</li>
+                  <li>Each friend opens link / enters code → picks name</li>
+                  <li>Everyone picks 4 golfers (1 per tier) — hidden</li>
+                  <li>1hr before tee-off: picks reveal, leaderboard goes live</li>
+                  <li>During play: leaderboard updates as positions change</li>
+                  <li>Tournament ends: lowest combined finish wins</li>
+                </ol>
+              </div>
+              <div className="tile" style={{ padding: 18 }}>
+                <div className="hand" style={{ fontSize: 26, fontWeight: 700 }}>Wireframe palette</div>
+                <div className="stack-8" style={{ fontSize: 13, marginTop: 8 }}>
+                  <Swatch color="#1A1A1A" name="ink · all structure" />
+                  <Swatch color="#FAF8F3" name="paper · background" />
+                  <Swatch color="#DDE5D8" name="fairway (accent soft)" />
+                  <Swatch color="#4A6B4A" name="fairway (accent)" />
+                  <Swatch color="#EADDCB" name="flag (warn soft)" />
+                  <Swatch color="#A86B3C" name="flag (warn)" />
+                </div>
+                <div className="tiny muted" style={{ marginTop: 10 }}>
+                  Kept intentionally restrained — wireframes are about structure, not skin.
+                </div>
+              </div>
+              <div className="tile" style={{ padding: 18 }}>
+                <div className="hand" style={{ fontSize: 26, fontWeight: 700 }}>Open questions</div>
+                <ul style={{ fontSize: 13, lineHeight: 1.6, paddingLeft: 20 }}>
+                  <li>What happens if a golfer misses the cut? Penalty score vs. fixed last-place?</li>
+                  <li>Can a user change picks right up to deadline, or lock on submit?</li>
+                  <li>Does the host pick the tournament, or is it auto-chosen per week?</li>
+                  <li>Ties on total score — who wins? (e.g., lowest single-tier pick)</li>
+                  <li>Withdraws / disqualifications: how scored?</li>
+                  <li>Multiple tournaments per group — season mode?</li>
+                </ul>
+              </div>
+              <div className="tile" style={{ padding: 18 }}>
+                <div className="hand" style={{ fontSize: 26, fontWeight: 700 }}>Screens not yet drawn</div>
+                <ul style={{ fontSize: 13, lineHeight: 1.6, paddingLeft: 20 }}>
+                  <li><b>Reveal moment</b> — the card-flip when picks go public</li>
+                  <li><b>Live leaderboard</b> — numbers-first table + visual chip view</li>
+                  <li><b>Player detail</b> — my 4 picks with live positions</li>
+                  <li><b>Finished / winner</b> — celebratory end state</li>
+                  <li><b>Returning via personal link</b> — "welcome back" state</li>
+                </ul>
+                <div className="tiny muted" style={{ marginTop: 8 }}>
+                  Next pass. Happy to wireframe these once we pick a direction on the first 6.
+                </div>
+              </div>
+            </div>
+          </Section>
+        </>
+      );
+    }
+
+    function Swatch({ color, name }) {
+      return (
+        <div className="row">
+          <div style={{ width: 20, height: 20, background: color, border: '1px solid var(--ink)', borderRadius: 3 }} />
+          <span style={{ fontFamily: 'Architects Daughter, sans-serif', fontSize: 12 }}>{name}</span>
+        </div>
+      );
+    }
+
+    ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+  </script>
+</body>
+</html>
