@@ -1,1 +1,3 @@
-.vercel
+# Environment variables
+app/.env.local
+app/.env*.local
