@@ -1,5 +1,6 @@
 const ESPN_BASE = "https://site.api.espn.com/apis/site/v2/sports/golf";
 const ESPN_SCOREBOARD = "https://site.api.espn.com/apis/site/v2/sports/golf/pga/scoreboard";
+const ESPN_TOURSCHEDULE = "https://site.web.api.espn.com/apis/site/v2/sports/golf/pga/tourschedule";
 
 export interface EspnTournament {
   id: string;
@@ -32,6 +33,15 @@ export interface EspnLeaderboardEntry {
   score: number | null;     // score to par (e.g. -9, 0, +2)
   thru: string | null;      // holes completed: "F", "12", etc.
   worldRanking: number;
+}
+
+interface RawScheduleEvent {
+  id: string;
+  label: string;
+  startDate: string;
+  endDate?: string;
+  locations?: string[];
+  fullStatus?: { type?: { state?: string; name?: string } };
 }
 
 interface RawEvent {
@@ -124,6 +134,32 @@ function toESPNDate(d: Date): string {
   return d.toISOString().slice(0, 10).replace(/-/g, "");
 }
 
+/** Fetch the full PGA Tour schedule for the current season. */
+async function fetchTourSchedule(): Promise<RawEvent[]> {
+  const year = new Date().getFullYear();
+  const res = await fetch(
+    `${ESPN_TOURSCHEDULE}?region=gb&lang=en&season=${year}`,
+    { next: { revalidate: 3600 } }
+  );
+  if (!res.ok) return [];
+  const data = await res.json() as {
+    currentSeason?: number;
+    seasons?: Array<{ year: number; events?: RawScheduleEvent[] }>;
+  };
+  const currentYear = data.currentSeason ?? year;
+  const season = data.seasons?.find(s => s.year === currentYear) ?? data.seasons?.[0];
+  const events = season?.events ?? [];
+  return events.map((e): RawEvent => ({
+    id: e.id,
+    name: e.label,
+    shortName: e.label,
+    date: e.startDate,
+    endDate: e.endDate,
+    status: { type: { state: e.fullStatus?.type?.state, name: e.fullStatus?.type?.name } },
+    competitions: [{ venue: { fullName: e.locations?.[0] ?? "" } }],
+  }));
+}
+
 /** Fetch a rolling 30-day window of events (15 days back, 15 days forward). */
 async function fetchSeasonEvents(): Promise<RawEvent[]> {
   const now = new Date();
@@ -146,7 +182,7 @@ export async function fetchTournamentPair(): Promise<{
   past: EspnTournament | null;
 }> {
   // Phase 1: full season calendar to identify which events we care about
-  const seasonEvents = await fetchSeasonEvents();
+  const seasonEvents = await fetchTourSchedule();
 
   const inPlayRaw = seasonEvents.find((e) => parseStatus(e.status?.type?.state) === "in") ?? null;
   let upcomingRaw = seasonEvents
