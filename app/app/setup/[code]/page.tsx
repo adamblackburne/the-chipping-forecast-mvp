@@ -61,10 +61,17 @@ export default function SetupPage({ params }: Props) {
       setPersonalUrl(url);
       saveSession({ sessionToken: token, displayName: name, competitionCode: upperCode });
 
-      // Check whether there's a tournament to pick for
+      // Check whether picks are available (tournament linked + field published)
       const compRes = await fetch(`/api/competition/${upperCode}`);
       const compData = await compRes.json();
-      setAwaitingTournament(compData.competition?.status === "awaiting_tournament");
+      const compStatus = compData.competition?.status;
+      let picksUnavailable = compStatus === "awaiting_tournament";
+      if (!picksUnavailable && compStatus === "open") {
+        const playersRes = await fetch(`/api/players?code=${upperCode}`);
+        const playersData = await playersRes.json();
+        if (!(playersData.players?.length > 0)) picksUnavailable = true;
+      }
+      setAwaitingTournament(picksUnavailable);
 
       setStep("link");
     } catch (e) {
@@ -130,7 +137,7 @@ export default function SetupPage({ params }: Props) {
               </h2>
               <p className="font-sans text-sm text-ink-2 mt-1">
                 {awaitingTournament
-                  ? "Save your personal link — picks will open once the tournament is announced."
+                  ? "Save your personal link — picks aren't open yet. Check back closer to the tournament."
                   : "Save your personal link before making picks."}
               </p>
             </div>

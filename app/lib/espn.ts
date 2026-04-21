@@ -120,11 +120,17 @@ function mockPreTournament(competitors: RawCompetitor[] = []): RawEvent {
   };
 }
 
-/** Fetch the full season schedule from the scoreboard endpoint. */
+function toESPNDate(d: Date): string {
+  return d.toISOString().slice(0, 10).replace(/-/g, "");
+}
+
+/** Fetch a rolling 30-day window of events (15 days back, 15 days forward). */
 async function fetchSeasonEvents(): Promise<RawEvent[]> {
   const now = new Date();
-  const start = `${now.getFullYear()}0101`;
-  const end = `${now.getFullYear()}1231`;
+  const startDate = new Date(now); startDate.setDate(now.getDate() - 15);
+  const endDate = new Date(now); endDate.setDate(now.getDate() + 15);
+  const start = toESPNDate(startDate);
+  const end = toESPNDate(endDate);
   const res = await fetch(
     `${ESPN_SCOREBOARD}?dates=${start}-${end}`,
     { next: { revalidate: 3600 } }

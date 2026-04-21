@@ -44,6 +44,7 @@ export default function PicksPage({ params }: Props) {
   const [error, setError] = useState<string | null>(null);
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [awaitingTournament, setAwaitingTournament] = useState(false);
+  const [fieldScheduled, setFieldScheduled] = useState(false);
 
   useEffect(() => {
     const session = getSession();
@@ -73,7 +74,12 @@ export default function PicksPage({ params }: Props) {
           setAwaitingTournament(true);
           return;
         }
-        setPlayers(playersData.players ?? []);
+        const loadedPlayers = playersData.players ?? [];
+        if (loadedPlayers.length === 0) {
+          setFieldScheduled(true);
+          return;
+        }
+        setPlayers(loadedPlayers);
         if (compData.competition?.pick_deadline) {
           setDeadline(new Date(compData.competition.pick_deadline));
         }
@@ -161,6 +167,15 @@ export default function PicksPage({ params }: Props) {
             <p className="font-display font-bold text-xl text-ink">No tournament yet</p>
             <p className="font-sans text-sm text-ink-2">
               Picks will open once the next tournament is announced. Check back soon.
+            </p>
+          </div>
+        </div>
+      ) : fieldScheduled ? (
+        <div className="flex flex-1 items-center justify-center px-8">
+          <div className="text-center space-y-2">
+            <p className="font-display font-bold text-xl text-ink">Tournament upcoming</p>
+            <p className="font-sans text-sm text-ink-2">
+              Picks will open once the field is confirmed. Check back closer to the tournament.
             </p>
           </div>
         </div>

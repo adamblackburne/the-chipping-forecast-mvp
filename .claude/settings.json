@@ -4,7 +4,35 @@
       "Bash(python3 -c ' *)",
       "Bash(python3 -c \"import os; print\\(os.listdir\\('/Users/adamblackburne/Documents/Documents - Adam\\\\u2019s MacBook/'\\)\\)\")",
       "Bash(python3 -c \"import os; print\\(os.path.exists\\('/Users/adamblackburne/Documents/Documents - Adam\\\\u2019s MacBook/Vibe Coding/the-chipping-forecast/app/node_modules'\\)\\)\")",
-      "Bash(npm run *)"
+      "Bash(npm run *)",
+      "Bash(git -C \"/Users/adamblackburne/Documents/Documents - Adam's MacBook/Vibe Coding/the-chipping-forecast\" log --oneline -5)",
+      "Bash(xargs -I{} sh -c 'git show {} --stat 2>/dev/null | grep -l \"cron\\\\|job\\\\|worker\\\\|background\" 2>/dev/null')",
+      "Bash(grep -v \"^commit\\\\|^Author\\\\|^Date\\\\|^    \\\\|^$\\\\|^Merge\\\\|^---\")",
+      "Bash(git ls-tree *)",
+      "Bash(python3 -c \"import os; print\\(os.path.exists\\('/Users/adamblackburne/Documents/Documents - Adam\\\\u2019s MacBook/Vibe Coding/the-chipping-forecast/app/lib'\\)\\)\")",
+      "Bash(python3 -c \"import os; print\\(os.listdir\\('/Users/adamblackburne/Documents/Documents - Adam\\\\u2019s MacBook/Vibe Coding/the-chipping-forecast/app/lib'\\)\\)\")",
+      "Bash(python3 -c \"import os; p=os.path.expanduser\\('~'\\)+'/Documents/Documents - Adam\\\\u2019s MacBook/Vibe Coding/the-chipping-forecast/app/supabase/migrations/002_cut_position_snapshot.sql'; print\\(os.path.exists\\(p\\), p\\)\")",
+      "Bash(git commit -m ' *)",
+      "Bash(git -C \"/Users/adamblackburne/Documents/Documents - Adam's MacBook/Vibe Coding/the-chipping-forecast\" log --oneline -10)",
+      "Bash(brctl download *)",
+      "Bash(curl -s \"https://sports.core.api.espn.com/v2/sports/golf/leagues/pga/events/401811943/competitions/11724/competitors?limit=200\")",
+      "Bash(python3 -m json.tool)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/golf/pga/leaderboard?tournamentId=401811943\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(list\\(d.keys\\(\\)\\), indent=2\\)\\)\")",
+      "Bash(curl -s \"https://sports.core.api.espn.com/v2/sports/golf/leagues/pga/seasons/2026/athletes?limit=50&active=true&tournaments=401811943\")",
+      "Bash(curl -s \"https://sports.core.api.espn.com/v2/sports/golf/leagues/pga/events/401811943/competitions/11724\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); print\\(json.dumps\\(d['competitors'], indent=2\\)\\)\")",
+      "Bash(python3 -c \"import os; p = '/Users/adamblackburne/Documents/Documents - Adam\\\\'s MacBook'; print\\(os.path.exists\\(p\\)\\); print\\(repr\\(p\\)\\)\")",
+      "Bash(python3 -c \"import os; p = '/Users/adamblackburne/Documents'; print\\([x for x in os.listdir\\(p\\) if 'MacBook' in x]\\)\")",
+      "Bash(python3 -c \"import os; docs = '/Users/adamblackburne/Documents'; items = os.listdir\\(docs\\); macbook = [x for x in items if 'MacBook' in x][0]; print\\(repr\\(macbook\\)\\)\")",
+      "Bash(python3 -c \"import os; docs = '/Users/adamblackburne/Documents'; macbook = [x for x in os.listdir\\(docs\\) if 'MacBook' in x and 'old' not in x][0]; project = os.path.join\\(docs, macbook, 'Vibe Coding', 'the-chipping-forecast'\\); print\\(repr\\(project\\)\\)\")",
+      "Bash(git -C ~/projects/chipping-forecast status --short)",
+      "Bash(git -C ~/projects/chipping-forecast remote -v)"
+    ],
+    "additionalDirectories": [
+      "/Users/adamblackburne/Documents/Documents - Adam's MacBook/Vibe Coding/the-chipping-forecast/app/supabase/migrations",
+      "/Users/adamblackburne/projects/chipping-forecast",
+      "/Users/adamblackburne/Documents/Documents - Adam’s MacBook/Vibe Coding/the-chipping-forecast"
     ]
   }
 }

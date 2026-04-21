@@ -23,6 +23,7 @@ interface FieldData {
   tournamentName: string;
   fieldSize: number;
   entries: FieldEntry[];
+  isLive: boolean;
 }
 
 type FilterMode = "all" | "group" | "me";
@@ -84,13 +85,15 @@ export default function FieldPage() {
             <p className="font-mono text-[10px] uppercase tracking-widest text-ink-3">
               Full field · {data?.fieldSize ?? 0} golfers
             </p>
-            <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-600 text-white shrink-0">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+            {data?.isLive && (
+              <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-600 text-white shrink-0">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                </span>
+                Live
               </span>
-              Live
-            </span>
+            )}
           </div>
 
           {/* Segmented control */}
@@ -123,7 +126,11 @@ export default function FieldPage() {
           <div>
             {filteredEntries.length === 0 ? (
               <div className="px-4 py-10 text-center">
-                <p className="font-sans text-sm text-ink-3">No golfers match this filter.</p>
+                <p className="font-sans text-sm text-ink-3">
+                  {filter === "all"
+                    ? "Awaiting confirmation of field."
+                    : "No golfers match this filter."}
+                </p>
               </div>
             ) : (
               filteredEntries.map((entry) => (

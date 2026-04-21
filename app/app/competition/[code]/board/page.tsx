@@ -121,16 +121,18 @@ export default function BoardPage() {
       ) : (
         <main className="flex flex-col flex-1 overflow-y-auto">
           {/* Live status strip */}
-          <div className="flex items-center justify-between px-4 py-2 border-b border-line-soft bg-paper-2 shrink-0">
-            <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-600 text-white">
-              <span className="relative flex h-1.5 w-1.5">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
-                <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+          {data.isLive && (
+            <div className="flex items-center justify-between px-4 py-2 border-b border-line-soft bg-paper-2 shrink-0">
+              <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-600 text-white">
+                <span className="relative flex h-1.5 w-1.5">
+                  <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-white opacity-75" />
+                  <span className="relative inline-flex rounded-full h-1.5 w-1.5 bg-white" />
+                </span>
+                Live
               </span>
-              Live
-            </span>
-            <span className="font-sans text-[11px] text-ink-3">tap row → see names</span>
-          </div>
+              <span className="font-sans text-[11px] text-ink-3">tap row → see names</span>
+            </div>
+          )}
 
           {/* Column headers */}
           <div className="grid grid-cols-[2rem_1fr_3rem_3rem_2.5rem] gap-x-2 px-4 py-2 border-b border-line-soft bg-paper shrink-0">

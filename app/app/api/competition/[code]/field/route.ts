@@ -12,7 +12,7 @@ export async function GET(req: NextRequest, { params }: Props) {
 
   const { data: comp } = await supabase
     .from("competitions")
-    .select("id, tournament_espn_id, tournament_name")
+    .select("id, tournament_espn_id, tournament_name, status")
     .eq("join_code", code.toUpperCase())
     .single();
 
@@ -64,5 +64,6 @@ export async function GET(req: NextRequest, { params }: Props) {
     tournamentName: comp.tournament_name,
     fieldSize: entries.length,
     entries: enrichedEntries,
+    isLive: comp.status === "live",
   });
 }
