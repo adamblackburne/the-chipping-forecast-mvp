@@ -29,6 +29,7 @@ interface LeaderboardData {
   tournamentName: string;
   tournamentId: string | null;
   isLive: boolean;
+  picksLocked: boolean;
 }
 
 interface LiveTournament {
@@ -86,8 +87,9 @@ export default function BoardPage() {
       .finally(() => setLoading(false));
   }, [code, router]);
 
-  function handleRowTap(memberId: string) {
-    setOpenMemberId((prev) => (prev === memberId ? null : memberId));
+  function handleRowTap(member: GroupMember) {
+    if (!data?.picksLocked && !member.isCurrentUser) return;
+    setOpenMemberId((prev) => (prev === member.id ? null : member.id));
   }
 
   return (
@@ -120,8 +122,8 @@ export default function BoardPage() {
         </main>
       ) : (
         <main className="flex flex-col flex-1 overflow-y-auto">
-          {/* Live status strip */}
-          {data.isLive && (
+          {/* Status strip */}
+          {data.isLive ? (
             <div className="flex items-center justify-between px-4 py-2 border-b border-line-soft bg-paper-2 shrink-0">
               <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest px-2 py-0.5 rounded-full bg-red-600 text-white">
                 <span className="relative flex h-1.5 w-1.5">
@@ -130,9 +132,13 @@ export default function BoardPage() {
                 </span>
                 Live
               </span>
-              <span className="font-sans text-[11px] text-ink-3">tap row → see names</span>
+              <span className="font-sans text-[11px] text-ink-3">tap row → see picks</span>
             </div>
-          )}
+          ) : !data.picksLocked ? (
+            <div className="px-4 py-2 border-b border-line-soft bg-paper-2 shrink-0">
+              <span className="font-sans text-[11px] text-ink-3">Picks are hidden until the tournament begins</span>
+            </div>
+          ) : null}
 
           {/* Column headers */}
           <div className="grid grid-cols-[2rem_1fr_3rem_3rem_2.5rem] gap-x-2 px-4 py-2 border-b border-line-soft bg-paper shrink-0">
@@ -148,11 +154,12 @@ export default function BoardPage() {
             {data.members.map((member, idx) => {
               const isOpen = openMemberId === member.id;
               const best = bestFinish(member.picks);
+              const canExpand = data.picksLocked || member.isCurrentUser;
 
               return (
                 <div key={member.id}>
                   <button
-                    onClick={() => handleRowTap(member.id)}
+                    onClick={() => handleRowTap(member)}
                     className={[
                       "w-full grid grid-cols-[2rem_1fr_3rem_3rem_2.5rem] gap-x-2 px-4 py-3 border-b border-line-soft text-left transition-colors",
                       member.isCurrentUser
@@ -174,14 +181,16 @@ export default function BoardPage() {
                             <span className="text-accent font-normal"> (you)</span>
                           )}
                         </span>
-                        <span
-                          className={[
-                            "text-ink-3 text-base leading-none shrink-0 transition-transform duration-150 inline-block",
-                            isOpen ? "rotate-90" : "",
-                          ].join(" ")}
-                        >
-                          ›
-                        </span>
+                        {canExpand && (
+                          <span
+                            className={[
+                              "text-ink-3 text-base leading-none shrink-0 transition-transform duration-150 inline-block",
+                              isOpen ? "rotate-90" : "",
+                            ].join(" ")}
+                          >
+                            ›
+                          </span>
+                        )}
                       </div>
                       {member.picks.length > 0 && (
                         <span className="font-mono text-[11px] text-ink-3 mt-0.5">

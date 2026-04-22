@@ -110,7 +110,6 @@ export default function FieldPage() {
       <TopBar
         title={data?.tournamentName ?? "Full field"}
         back={`/competition/${code}/board`}
-        action={<span className="text-sm text-ink-3 font-medium">Filter</span>}
       />
 
       {loading ? (

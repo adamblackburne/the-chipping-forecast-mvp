@@ -3,6 +3,7 @@ import { TopBar } from "@/components/layout/TopBar";
 import { TabBar } from "@/components/layout/TabBar";
 import { supabase } from "@/lib/supabase";
 import type { Competition, Participant } from "@/lib/supabase";
+import { PersonalLinkSection } from "@/components/competition/PersonalLinkSection";
 
 interface Props {
   params: Promise<{ code: string }>;
@@ -54,7 +55,7 @@ export default async function GroupPage({ params }: Props) {
         </div>
 
         {comp && (
-          <div className="mt-auto pt-4 border-t border-line-soft">
+          <div className="pt-4 border-t border-line-soft">
             <p className="font-mono text-[10px] uppercase tracking-widest text-ink-2 mb-1">
               Join code
             </p>
@@ -63,6 +64,8 @@ export default async function GroupPage({ params }: Props) {
             </p>
           </div>
         )}
+
+        <PersonalLinkSection code={upperCode} />
       </main>
       <TabBar competitionCode={upperCode} />
     </MobileShell>

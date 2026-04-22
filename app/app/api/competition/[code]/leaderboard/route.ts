@@ -145,12 +145,21 @@ export async function GET(req: NextRequest, { params }: Props) {
   }));
 
   const derivedStatus = deriveCompStatus(espnStatus, entries.length > 0);
+  const picksLocked = derivedStatus === "in_progress" || derivedStatus === "final";
+
+  // Before picks are locked, hide other participants' picks and scores.
+  const membersOut = picksLocked
+    ? members
+    : members.map((m) =>
+        m.isCurrentUser ? m : { ...m, picks: [], totalScore: null, trend: 0 }
+      );
 
   return NextResponse.json({
-    members,
+    members: membersOut,
     tournamentName: comp.tournament_name,
     tournamentId: comp.tournament_espn_id,
     isLive: derivedStatus === "in_progress",
     isFinal: derivedStatus === "final",
+    picksLocked,
   });
 }
