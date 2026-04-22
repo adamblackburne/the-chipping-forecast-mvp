@@ -36,7 +36,7 @@ export default async function LandingPage() {
               <div className="flex items-center gap-2 mb-2">
                 <span className="w-3 h-0.5 bg-ink inline-block" aria-hidden />
                 <span className="font-mono text-[10px] uppercase tracking-widest text-ink-2">
-                  This week
+                  {tournamentTimingLabel(current.startDate)}
                 </span>
               </div>
               {current.status === "in" ? (
@@ -158,6 +158,24 @@ export default async function LandingPage() {
       </main>
     </MobileShell>
   );
+}
+
+function tournamentTimingLabel(startDate: string): string {
+  const now = new Date();
+  const start = new Date(startDate);
+  // Monday of the current week (Mon = 0 offset)
+  const dayOfWeek = (now.getDay() + 6) % 7; // Mon=0 … Sun=6
+  const thisMonday = new Date(now);
+  thisMonday.setDate(now.getDate() - dayOfWeek);
+  thisMonday.setHours(0, 0, 0, 0);
+  const nextMonday = new Date(thisMonday);
+  nextMonday.setDate(thisMonday.getDate() + 7);
+  const weekAfter = new Date(nextMonday);
+  weekAfter.setDate(nextMonday.getDate() + 7);
+
+  if (start >= thisMonday && start < nextMonday) return "This week";
+  if (start >= nextMonday && start < weekAfter) return "Next week";
+  return "Coming up";
 }
 
 function formatDeadline(teeTime: string): string {

@@ -36,7 +36,9 @@
       "Bash(curl -s \"https://sports.core.api.espn.com/v2/sports/golf/leagues/pga/events/401811943/competitions/401811943/odds\")",
       "Bash(curl -s \"https://sports.core.api.espn.com/v2/sports/golf/leagues/pga/events/401811942/competitions/401811942/odds\")",
       "Bash(awk '{print $2}')",
-      "Bash(xargs kill *)"
+      "Bash(xargs kill *)",
+      "Bash(pkill -f \"npm.*dev\")",
+      "WebFetch(domain:site.web.api.espn.com)"
     ],
     "additionalDirectories": [
       "/Users/adamblackburne/Documents/Documents - Adam's MacBook/Vibe Coding/the-chipping-forecast/app/supabase/migrations",

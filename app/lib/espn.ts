@@ -42,6 +42,7 @@ interface RawScheduleEvent {
   endDate?: string;
   locations?: string[];
   fullStatus?: { type?: { state?: string; name?: string } };
+  defendingChampion?: { roster?: unknown[] };
 }
 
 interface RawEvent {
@@ -70,6 +71,11 @@ interface RawCompetitor {
   order?: number;        // scoreboard format: 1-based ranking
   sortOrder?: number;    // leaderboard format
   athlete?: {
+    id?: string;
+    displayName?: string;
+    shortName?: string;
+  };
+  team?: {
     id?: string;
     displayName?: string;
     shortName?: string;
@@ -154,7 +160,9 @@ async function fetchTourSchedule(): Promise<RawEvent[]> {
   };
   const currentYear = data.currentSeason ?? year;
   const season = data.seasons?.find(s => s.year === currentYear) ?? data.seasons?.[0];
-  const events = season?.events ?? [];
+  const events = (season?.events ?? []).filter(
+    (e) => !e.defendingChampion?.roster || e.defendingChampion.roster.length <= 1
+  );
   return events.map((e): RawEvent => ({
     id: e.id,
     name: e.label,
@@ -219,9 +227,17 @@ export async function fetchTournamentPair(): Promise<{
     upcomingLeaderboard = undefined;
   }
 
-  // Enrich season event with leaderboard data (venue + competitors)
-  const enrich = (raw: RawEvent, lb?: RawEvent): RawEvent =>
-    lb ? { ...raw, competitions: lb.competitions } : raw;
+  // Enrich season event with leaderboard data (competitors), preserving schedule venue
+  const enrich = (raw: RawEvent, lb?: RawEvent): RawEvent => {
+    if (!lb) return raw;
+    const scheduleVenue = raw.competitions?.[0]?.venue?.fullName;
+    const lbComp = lb.competitions?.[0];
+    const mergedVenue = lbComp?.venue?.fullName || scheduleVenue || "";
+    return {
+      ...raw,
+      competitions: [{ ...lbComp, venue: { fullName: mergedVenue } }, ...(lb.competitions?.slice(1) ?? [])],
+    };
+  };
 
   const upcomingCompetitors = (upcomingLeaderboard ?? upcomingRaw)?.competitions?.[0]?.competitors ?? [];
   const fieldReady = upcomingCompetitors.length > 0;
@@ -263,14 +279,18 @@ export async function fetchTournamentField(tournamentId: string): Promise<EspnPl
   const event = data.events?.find((e) => e.id === tournamentId) ?? data.events?.[0];
   const competitors = event?.competitions?.[0]?.competitors ?? [];
 
+  // Team events (e.g. Zurich Classic) have team competitors — unsupported, return empty
+  const isTeamEvent = competitors.length > 0 && competitors.every((c) => !c.athlete && c.team);
+  if (isTeamEvent) return [];
+
   return competitors
     .map((c: RawCompetitor): EspnPlayer | null => {
-      const id = c.athlete?.id ?? c.id;
+      const id = c.athlete?.id ?? c.team?.id ?? c.id;
       if (!id) return null;
       return {
         id,
-        displayName: c.athlete?.displayName ?? "Unknown",
-        shortName: c.athlete?.shortName ?? "",
+        displayName: c.athlete?.displayName ?? c.team?.displayName ?? "Unknown",
+        shortName: c.athlete?.shortName ?? c.team?.shortName ?? "",
         worldRanking: 999, // ESPN doesn't reliably expose ranking; DataGolf fills this
         odds: null,
         recentForm: [],
