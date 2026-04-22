@@ -35,7 +35,7 @@ export async function GET(_req: NextRequest, { params }: Props) {
     if (next) {
       const teeTime = next.firstTeeTime ?? next.startDate;
       const pickDeadline = new Date(
-        new Date(teeTime).getTime() - 60 * 60 * 1000
+        new Date(teeTime).getTime() - 30 * 60 * 1000
       ).toISOString();
       const db = createServiceClient();
       const { data: updated } = await db

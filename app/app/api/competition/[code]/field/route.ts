@@ -56,6 +56,8 @@ export async function GET(req: NextRequest, { params }: Props) {
     positionDisplay: e.positionDisplay,
     score: e.score,
     thru: e.thru,
+    teeTime: e.teeTime,
+    startHole: e.startHole,
     status: e.status,
     pickedByGroup: groupPickIds.has(e.playerId),
     pickedByMe: myPickIds.has(e.playerId),

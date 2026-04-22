@@ -36,6 +36,8 @@ export interface EspnLeaderboardEntry {
   status: "active" | "cut" | "wd" | "dq" | "complete";
   score: number | null;     // score to par (e.g. -9, 0, +2)
   thru: string | null;      // holes completed: "F", "12", etc.
+  teeTime: string | null;   // ISO string, null once round is underway
+  startHole: number | null;
   worldRanking: number;
 }
 
@@ -91,6 +93,8 @@ interface RawCompetitor {
     displayThru?: string;
     thru?: number;
     period?: number;
+    teeTime?: string;
+    startHole?: number;
   };
   score?: { value?: number; displayValue?: string } | string;
   linescores?: RawLinescore[];
@@ -340,8 +344,19 @@ export async function fetchEurTournamentPair(): Promise<{
   return { inPlay, next, past };
 }
 
+function earliestTeeTime(competitors: RawCompetitor[]): string | null {
+  const times = competitors
+    .map((c) => c.status?.teeTime)
+    .filter((t): t is string => !!t)
+    .map((t) => new Date(t).getTime())
+    .filter((ms) => !isNaN(ms));
+  if (times.length === 0) return null;
+  return new Date(Math.min(...times)).toISOString();
+}
+
 function adaptTournament(e: RawEvent, fieldReady = true, tour: "pga" | "eur" = "pga"): EspnTournament {
   const comp = e.competitions?.[0];
+  const competitors = comp?.competitors ?? [];
   return {
     id: e.id,
     name: e.name,
@@ -349,7 +364,7 @@ function adaptTournament(e: RawEvent, fieldReady = true, tour: "pga" | "eur" = "
     startDate: e.date,
     endDate: e.endDate ?? e.date,
     status: parseStatus(e.status?.type?.state),
-    firstTeeTime: comp?.startDate ?? null,
+    firstTeeTime: earliestTeeTime(competitors) ?? comp?.startDate ?? null,
     venue: comp?.venue?.fullName ?? "",
     fieldReady,
     tour,
@@ -459,6 +474,8 @@ export async function fetchLeaderboard(tournamentId: string, isFinal = false): P
         status: parsePlayerStatus(statusName),
         score: parseScoreToPar(getScoreDisplayValue(c.score)),
         thru: isFinished ? "F" : (c.status?.displayThru ?? null),
+        teeTime: c.status?.teeTime ?? null,
+        startHole: c.status?.startHole ?? null,
         worldRanking: 999,
         _sortOrder: c.sortOrder ?? 9999,
       } as EspnLeaderboardEntry & { _sortOrder: number };
@@ -519,6 +536,8 @@ async function fetchLeaderboardFromScoreboard(tournamentId: string): Promise<{
         status: "complete",
         score,
         thru: "F",
+        teeTime: null,
+        startHole: null,
         worldRanking: 999,
         _order: c.order ?? 9999,
       };

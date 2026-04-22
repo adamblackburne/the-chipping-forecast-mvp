@@ -11,7 +11,7 @@ function generateJoinCode(): string {
 }
 
 function computeDeadline(firstTeeTime: string): Date {
-  return new Date(new Date(firstTeeTime).getTime() - 60 * 60 * 1000);
+  return new Date(new Date(firstTeeTime).getTime() - 30 * 60 * 1000);
 }
 
 export async function POST(req: NextRequest) {

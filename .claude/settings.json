@@ -49,7 +49,11 @@
       "Bash(git -C /Users/adamblackburne/projects/chipping-forecast status)",
       "Bash(git -C /Users/adamblackburne/projects/chipping-forecast diff)",
       "Bash(git -C /Users/adamblackburne/projects/chipping-forecast log --oneline -5)",
-      "Bash(git -C /Users/adamblackburne/projects/chipping-forecast add .claude/settings.json app/app/api/competition/\\\\[code\\\\]/route.ts app/app/api/competition/route.ts app/app/api/picks/route.ts app/app/api/players/route.ts app/app/api/tournaments/route.ts app/app/competition/\\\\[code\\\\]/picks/page.tsx app/app/create/page.tsx app/app/page.tsx app/components/picks/GolferRow.tsx app/components/picks/TierSection.tsx app/lib/datagolf.ts app/lib/espn.ts app/lib/rankings.ts app/supabase/schema.sql)"
+      "Bash(git -C /Users/adamblackburne/projects/chipping-forecast add .claude/settings.json app/app/api/competition/\\\\[code\\\\]/route.ts app/app/api/competition/route.ts app/app/api/picks/route.ts app/app/api/players/route.ts app/app/api/tournaments/route.ts app/app/competition/\\\\[code\\\\]/picks/page.tsx app/app/create/page.tsx app/app/page.tsx app/components/picks/GolferRow.tsx app/components/picks/TierSection.tsx app/lib/datagolf.ts app/lib/espn.ts app/lib/rankings.ts app/supabase/schema.sql)",
+      "Bash(git -C /Users/adamblackburne/projects/chipping-forecast commit -m ' *)",
+      "Bash(git -C /Users/adamblackburne/projects/chipping-forecast push origin main)",
+      "Bash(curl -s \"https://site.api.espn.com/apis/site/v2/sports/golf/leaderboard\")",
+      "Bash(python3 -c \"import json,sys; d=json.load\\(sys.stdin\\); c=d['events'][0]['competitions'][0]['competitors'][0]; print\\(json.dumps\\(c.get\\('status',{}\\), indent=2\\)\\)\")"
     ],
     "additionalDirectories": [
       "/Users/adamblackburne/Documents/Documents - Adam's MacBook/Vibe Coding/the-chipping-forecast/app/supabase/migrations",
