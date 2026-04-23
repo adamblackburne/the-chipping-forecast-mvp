@@ -17,7 +17,7 @@ interface FieldEntry {
   teeTime: string | null;
   startHole: number | null;
   status: string;
-  pickedByGroup: boolean;
+  pickerNames: string[];
   pickedByMe: boolean;
 }
 
@@ -76,7 +76,7 @@ export default function FieldPage() {
 
   const filteredEntries = (data?.entries ?? [])
     .filter((e) => {
-      if (filter === "group") return e.pickedByGroup;
+      if (filter === "group") return e.pickedByMe || e.pickerNames.length > 0;
       if (filter === "me") return e.pickedByMe;
       return true;
     })
@@ -203,7 +203,7 @@ export default function FieldPage() {
                   key={entry.playerId}
                   className={[
                     "grid grid-cols-[3.5rem_1fr_3.5rem_3rem] gap-x-2 px-4 py-3 border-b border-line-soft",
-                    entry.pickedByGroup ? "bg-accent-soft" : "bg-paper",
+                    entry.pickedByMe || entry.pickerNames.length > 0 ? "bg-accent-soft" : "bg-paper",
                   ].join(" ")}
                 >
                   <span
@@ -217,14 +217,23 @@ export default function FieldPage() {
                     {entry.positionDisplay}
                   </span>
 
-                  <div className="flex items-center gap-2 min-w-0">
+                  <div className="flex flex-col min-w-0 gap-0.5">
                     <span className="font-sans text-sm text-ink truncate">
                       {entry.shortName || entry.displayName}{entry.startHole === 10 && "*"}
                     </span>
-                    {entry.pickedByGroup && (
-                      <span className="shrink-0 text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded bg-accent text-paper leading-tight">
-                        picked
-                      </span>
+                    {(entry.pickedByMe || entry.pickerNames.length > 0) && (
+                      <div className="flex flex-wrap gap-1">
+                        {entry.pickedByMe && (
+                          <span className="shrink-0 text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded bg-accent text-paper leading-tight">
+                            your pick
+                          </span>
+                        )}
+                        {entry.pickerNames.map((name) => (
+                          <span key={name} className="shrink-0 text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded bg-accent text-paper leading-tight">
+                            {name}
+                          </span>
+                        ))}
+                      </div>
                     )}
                   </div>
 
@@ -268,16 +277,25 @@ export default function FieldPage() {
                       key={entry.playerId}
                       className={[
                         "flex items-center gap-2 px-4 py-3 border-b border-line-soft min-w-0",
-                        entry.pickedByGroup ? "bg-accent-soft" : "bg-paper",
+                        entry.pickedByMe || entry.pickerNames.length > 0 ? "bg-accent-soft" : "bg-paper",
                       ].join(" ")}
                     >
-                      <span className="font-sans text-sm text-ink truncate">
+                      <span className="font-sans text-sm text-ink truncate shrink-0">
                         {entry.shortName || entry.displayName}{entry.startHole === 10 && "*"}
                       </span>
-                      {entry.pickedByGroup && (
-                        <span className="shrink-0 text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded bg-accent text-paper leading-tight">
-                          picked
-                        </span>
+                      {(entry.pickedByMe || entry.pickerNames.length > 0) && (
+                        <div className="flex flex-wrap gap-1">
+                          {entry.pickedByMe && (
+                            <span className="shrink-0 text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded bg-accent text-paper leading-tight">
+                              your pick
+                            </span>
+                          )}
+                          {entry.pickerNames.map((name) => (
+                            <span key={name} className="shrink-0 text-[9px] font-mono uppercase tracking-widest px-1.5 py-0.5 rounded bg-accent text-paper leading-tight">
+                              {name}
+                            </span>
+                          ))}
+                        </div>
                       )}
                     </div>
                   ))}

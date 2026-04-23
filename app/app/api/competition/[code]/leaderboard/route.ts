@@ -78,14 +78,20 @@ export async function GET(req: NextRequest, { params }: Props) {
     ? await fetchLeaderboard(comp.tournament_espn_id)
     : { entries: [], lastCutPosition: 0, currentRound: 0, espnStatus: "pre" as const };
 
-  // Snapshot the cut position once R3 begins so it can't drift as R3/R4 positions shift.
-  let lastCutPosition: number = comp.cut_position_snapshot ?? liveCutPosition;
-  if (comp.cut_position_snapshot === null && currentRound >= 3 && liveCutPosition > 0) {
+  // Determine the cut penalty baseline (pickScore adds +1 to this).
+  // Pre-cut (R1/R2): projected cut = half the field, so penalty = floor(fieldSize/2) + 1.
+  // Post-cut (R3+): snapshot the position of the last player to make the cut and freeze it.
+  let lastCutPosition: number;
+  if (comp.cut_position_snapshot !== null) {
+    lastCutPosition = comp.cut_position_snapshot;
+  } else if (currentRound >= 3 && liveCutPosition > 0) {
     lastCutPosition = liveCutPosition;
     await supabase
       .from("competitions")
       .update({ cut_position_snapshot: liveCutPosition })
       .eq("id", comp.id);
+  } else {
+    lastCutPosition = Math.floor(entries.length / 2);
   }
 
   const entryMap = new Map(entries.map((e) => [e.playerId, e]));

@@ -21,7 +21,7 @@ export async function GET(req: NextRequest, { params }: Props) {
 
   const { data: participants } = await supabase
     .from("participants")
-    .select("id, session_token")
+    .select("id, session_token, display_name")
     .eq("competition_id", comp.id);
 
   const allParticipantIds = (participants ?? []).map((p) => p.id);
@@ -38,7 +38,21 @@ export async function GET(req: NextRequest, { params }: Props) {
     allPicks = data ?? [];
   }
 
-  const groupPickIds = new Set(allPicks.map((p) => p.player_espn_id));
+  const participantNameById = new Map(
+    (participants ?? []).map((p) => [p.id, p.display_name as string])
+  );
+
+  // Map each player ESPN ID → names of group members who picked them (excluding current user)
+  const pickerNamesById = new Map<string, string[]>();
+  for (const pick of allPicks) {
+    if (pick.participant_id === myParticipantId) continue;
+    const name = participantNameById.get(pick.participant_id);
+    if (!name) continue;
+    const existing = pickerNamesById.get(pick.player_espn_id) ?? [];
+    existing.push(name);
+    pickerNamesById.set(pick.player_espn_id, existing);
+  }
+
   const myPickIds = new Set(
     allPicks
       .filter((p) => p.participant_id === myParticipantId)
@@ -59,7 +73,7 @@ export async function GET(req: NextRequest, { params }: Props) {
     teeTime: e.teeTime,
     startHole: e.startHole,
     status: e.status,
-    pickedByGroup: groupPickIds.has(e.playerId),
+    pickerNames: pickerNamesById.get(e.playerId) ?? [],
     pickedByMe: myPickIds.has(e.playerId),
   }));
 
