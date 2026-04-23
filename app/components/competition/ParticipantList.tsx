@@ -9,10 +9,10 @@ export interface ParticipantStatus {
 
 interface ParticipantListProps {
   participants: ParticipantStatus[];
-  currentSessionToken?: string;
+  currentParticipantId?: string;
 }
 
-export function ParticipantList({ participants, currentSessionToken }: ParticipantListProps) {
+export function ParticipantList({ participants, currentParticipantId }: ParticipantListProps) {
   const inCount = participants.filter((p) => p.picksComplete).length;
 
   return (
@@ -36,7 +36,7 @@ export function ParticipantList({ participants, currentSessionToken }: Participa
               </span>
               <span className="font-sans text-sm text-ink">
                 {p.displayName}
-                {currentSessionToken && <span className="text-ink-3 ml-1 text-xs">(you)</span>}
+                {p.id === currentParticipantId && <span className="text-ink-3 ml-1 text-xs">(you)</span>}
               </span>
             </div>
             {p.picksComplete ? (

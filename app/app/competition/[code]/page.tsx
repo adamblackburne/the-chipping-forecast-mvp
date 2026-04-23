@@ -27,6 +27,7 @@ export default function CompetitionPage({ params }: Props) {
   const [sessionToken, setSessionToken] = useState<string | null>(null);
   const [picks, setPicks] = useState<PickSummaryItem[]>([]);
   const [participants, setParticipants] = useState<ParticipantStatus[]>([]);
+  const [currentParticipantId, setCurrentParticipantId] = useState<string | null>(null);
   const [deadline, setDeadline] = useState<Date | null>(null);
   const [deadlineLabel, setDeadlineLabel] = useState<string>("");
   const [loading, setLoading] = useState(true);
@@ -56,7 +57,7 @@ export default function CompetitionPage({ params }: Props) {
       const [compRes, picksRes, partRes] = await Promise.all([
         fetch(`/api/competition/${upperCode}`),
         fetch(`/api/picks?code=${upperCode}`, { headers: { "x-session-token": token } }),
-        fetch(`/api/competition/${upperCode}/participants`),
+        fetch(`/api/competition/${upperCode}/participants`, { headers: { "x-session-token": token } }),
       ]);
       const compData = await compRes.json();
       const picksData = await picksRes.json();
@@ -92,6 +93,7 @@ export default function CompetitionPage({ params }: Props) {
         }))
       );
       setParticipants(partData.participants ?? []);
+      setCurrentParticipantId(partData.currentParticipantId ?? null);
     } catch {
       // Silently handle — user will see empty state
     } finally {
@@ -214,7 +216,7 @@ export default function CompetitionPage({ params }: Props) {
           {/* Group status */}
           <ParticipantList
             participants={participants}
-            currentSessionToken={sessionToken ?? undefined}
+            currentParticipantId={currentParticipantId ?? undefined}
           />
 
           {/* Invite button */}

@@ -5,7 +5,7 @@ interface Props {
   params: Promise<{ code: string }>;
 }
 
-export async function GET(_req: NextRequest, { params }: Props) {
+export async function GET(req: NextRequest, { params }: Props) {
   const { code } = await params;
 
   const { data: comp } = await supabase
@@ -15,6 +15,18 @@ export async function GET(_req: NextRequest, { params }: Props) {
     .single();
 
   if (!comp) return NextResponse.json({ participants: [] });
+
+  const sessionToken = req.headers.get("x-session-token");
+  let currentParticipantId: string | null = null;
+  if (sessionToken) {
+    const { data: self } = await supabase
+      .from("participants")
+      .select("id")
+      .eq("session_token", sessionToken)
+      .eq("competition_id", comp.id)
+      .single();
+    currentParticipantId = self?.id ?? null;
+  }
 
   const { data: participants } = await supabase
     .from("participants")
@@ -38,5 +50,5 @@ export async function GET(_req: NextRequest, { params }: Props) {
     })
   );
 
-  return NextResponse.json({ participants: result });
+  return NextResponse.json({ participants: result, currentParticipantId });
 }
